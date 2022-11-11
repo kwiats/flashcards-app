@@ -1,0 +1,13 @@
+{%extends 'base.html'%}
+
+{% block content %}
+<a href="add_category/">Add category</a>
+<a href="add_word/">Add word</a>
+{% for word in words%}
+<h1>{{word.word}}</h1>
+<h7>{{word.word}} --> {{word.translated_word}}</h7>
+<h4>{{word.translated_word}}</h4>
+<h4>{{word.category}}</h4>
+<hr>
+{% endfor%}
+{%endblock %}
