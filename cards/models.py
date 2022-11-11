@@ -14,7 +14,7 @@ class Word(models.Model):
         blank=True,
     )
 
-    updated = models.DateTimeField(auto_now_=True)
+    updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

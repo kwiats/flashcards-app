@@ -33,3 +33,7 @@ def add_category(request):
 
     context = {"form": form}
     return render(request, "cards/add_category.html", context)
+
+
+def flashcards(request):
+    return render(request, "cards/flashcards.html")

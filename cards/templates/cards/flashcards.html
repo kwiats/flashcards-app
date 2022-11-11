@@ -1,9 +1,18 @@
-{%extends 'base.html'%} {%block content%}
+{%extends 'base.html'%}
 
-<hr />
-<div>
-</div>
-<div>
 
+{%block content%}
+
+<div class="flashcard">
+    <div class="word-button">
+        <div id="wd-button"> {{context.word}} - test</div>
+    </div>
+    <div class="options-buttons">
+        <div id="idk-bttn"><input type="button" value="I don't know"></div>
+        <div id="ik-bttn"><input type="button" value="I know"></div>
+        <div id="alt-bttn"><input type="button" value="Almost"></div>
+    </div>
 </div>
+
+
 {%endblock%}
