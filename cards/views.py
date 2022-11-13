@@ -36,4 +36,8 @@ def add_category(request):
 
 
 def flashcards(request):
-    return render(request, "cards/flashcards.html")
+    words = Word.objects.all()
+    q = request.POST.get("q")
+
+    context = {"words": words, "q": q}
+    return render(request, "cards/flashcards.html", context)
