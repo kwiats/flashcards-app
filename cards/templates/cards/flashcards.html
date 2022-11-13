@@ -59,9 +59,10 @@
             {% endfor%}
         </div>
         <form class="option-buttons" method="POST" action="">
-            <a class="single-button"><input type="button" name='q' value="I don't know"></a>
-            <a class="single-button"><input type="button" value="I know"></a>
-            <a class="single-button"><input type="button" value="Almost"></a>
+            {% csrf_token %}
+            <a href="" class="single-button"><input type="submit" name='q' value="I don't know"></a>
+            <a class="single-button"><input type="submit" name='q' value="I know"></a>
+            <a class="single-button"><input type="submit" name='q' value="Almost"></a>
         </form>
     </div>
 </div>
