@@ -4,6 +4,4 @@ Flashcards application is builded for learning english vocabulary for Poles. By 
 
 ## Tech Stack
 
-**Client:** JavaScript, Vue.js
-
-**Server:** Django
+**Backend:** Django
