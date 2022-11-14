@@ -9,27 +9,26 @@ class Learning:
         self.all_ids = all_ids
         self.quantity = quantity
 
-    def gen_list_of_words(self):
+    def gen_list_of_words(self) -> List:
         while len(self.temp_lst) < self.quantity:
             id = choice(self.all_ids)
             self.temp_lst.append(id)
-            temp_lst = List(set(temp_lst))
+            self.temp_lst = list(set(self.temp_lst))
         return self.temp_lst
 
     def get_random_id(self):
         return choice(self.temp_lst)
 
-    def split_into_groups(self, type_group, word_id):
+    def split_into_groups(self, type_group: List, word_id: int) -> int:
         if type_group == "-1":
             self.case_one.append(word_id)
             return -1
         elif type_group == "1":
             self.case_three.append(word_id)
             return 1
-        self.case_two.append(word_id)
-        return 0
+        else:
+            self.case_two.append(word_id)
+            return 0
 
-    def check_word_in_list(self, word_id: int, lst: list) -> bool:
-        if word_id in lst:
-            return True
-        return False
+    def check_word_in_list(self, word_id: int, lst: List) -> bool:
+        return word_id in lst

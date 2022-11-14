@@ -36,9 +36,15 @@ def add_category(request):
     return render(request, "cards/add_category.html", context)
 
 
+ids = Word.objects.values_list("id", flat=True)
+learn = Learning(100, ids)
+rnd_list = learn.gen_list_of_words()
+
+
 def flashcards(request):
-    words = Word.objects.all()
+    word = Word.objects.get(id=learn.get_random_id())
+
     q = request.POST.get("q")
     print(q)
-    context = {"words": words}
+    context = {"words": word}
     return render(request, "cards/flashcards.html", context)

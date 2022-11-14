@@ -50,13 +50,8 @@
         <a>Hello World!</a>
         {%endif%}
         <div class="word-button">
-
-            {% for word in words%}
-            <a class="before-word"><input type="button" value="{{ word.word }}"></a>
-            <a class="after-word"><input type="button" value="{{ word.translated_word }}"></a>
-
-
-            {% endfor%}
+            <a class="before-word"><input type="button" value="{{ words.word }}"></a>
+            <a class="after-word"><input type="button" value="{{ words.translated_word }}"></a>
         </div>
         <form class="option-buttons" method="POST" action="">
             {% csrf_token %}
