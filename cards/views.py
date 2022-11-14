@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Word, Category
 from .forms import WordForm, CategoryForm
+from .services import Learning
 
 # Create your views here.
 
