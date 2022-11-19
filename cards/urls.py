@@ -8,8 +8,7 @@ router = routers.DefaultRouter()
 router.register(r"words", WordViewSet)
 router.register(r"categories", CategoryViewSet)
 
-urlpatterns = [
-    # api
+urlpatterns=[
     path("api/", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("", views.home, name="home"),
