@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Word(models.Model):
@@ -29,3 +30,46 @@ class Category(models.Model):
 
     def __str__(self):
         return self.category
+
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return "user_{0}/{1}".format(instance.user.id, filename)
+
+
+class User(models.Model):
+    username = models.TextField(max_length=255, unique=True)
+    password = models.TextField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
+    # profile_picture = models.FileField(upload_to=user_directory_path)
+
+    # option_idk= models.
+    # option_ik=
+    # option_alt=
+
+
+class Answer(models.Model):
+    class OptionsInAnswer(models.TextChoices):
+        IDONTKNOW = ("idk"), _("I don't know")
+        IKNOW = ("ikw"), _("I know")
+        ALMOST = ("alt"), _("Almost")
+
+    user = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    word = models.ForeignKey(
+        "Word",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    knowledge = models.CharField(
+        max_length=3,
+        choices=OptionsInAnswer.choices,
+        default=OptionsInAnswer.IDONTKNOW,
+    )
