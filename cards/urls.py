@@ -2,13 +2,15 @@ from django.urls import path, include
 from . import views
 
 from rest_framework import routers
-from .rest_views import WordViewSet, CategoryViewSet
+from .rest_views import WordViewSet, CategoryViewSet, AnswerViewSet, UserViewSet
 
-router = routers.DefaultRouter()
-router.register(r"words", WordViewSet)
-router.register(r"categories", CategoryViewSet)
+router = routers.SimpleRouter()
+router.register(r"word", WordViewSet)
+router.register(r"category", CategoryViewSet)
+router.register(r"answer", AnswerViewSet)
+router.register(r"user", UserViewSet)
 
-urlpatterns=[
+urlpatterns = [
     path("api/", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("", views.home, name="home"),
