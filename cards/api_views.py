@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.http import Http404
 
+
 from .models import User, Word, Category, Answer
 from .serializer import (
     AnswerSerializer,
@@ -38,12 +39,26 @@ class WordDetailView(APIView):
         serializer = WordSerializer(word)
         return Response(serializer.data)
 
+    def post(self, request, pk, format=None):
+        serializer = WordSerializer(data=request.data)
+
+        if serializer.is_valid():
+
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def put(self, request, pk, format=None):
         word = self.get_object(pk)
-        serializer = WordSerializer(word, data=request.data)
+        if word:
+            serializer = WordSerializer(word, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+        serializer = WordSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
