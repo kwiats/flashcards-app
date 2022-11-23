@@ -6,7 +6,6 @@ from rest_framework import routers
 
 
 urlpatterns = [
-
     path("word/", WordListView.as_view()),
     path("word/<int:pk>/", WordDetailView.as_view()),
 ]
