@@ -31,8 +31,8 @@ class WordDetailView(APIView):
     def get_object(self, pk):
         try:
             return Word.objects.get(pk=pk)
-        except Word.DoesNotExist:
-            raise Http404
+        except:
+            return None
 
     def get(self, request, pk, format=None):
         word = self.get_object(pk)
@@ -49,6 +49,7 @@ class WordDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk, format=None):
+
         word = self.get_object(pk)
         if word:
             serializer = WordSerializer(word, data=request.data)
