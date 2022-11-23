@@ -4,13 +4,8 @@ from rest_framework import status
 from django.http import Http404
 
 
-from .models import User, Word, Category, Answer
-from .serializer import (
-    AnswerSerializer,
-    WordSerializer,
-    CategorySerializer,
-    UserSerializer,
-)
+from .models import Word
+from .serializer import WordSerializer
 
 
 class WordListView(APIView):
@@ -66,51 +61,3 @@ class WordDetailView(APIView):
         word = self.get_object(pk)
         word.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class CategoryView(APIView):
-    def get(self, request):
-        categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
-        return Response({"categories": serializer.data})
-
-    def post(self):
-        pass
-
-    def put(self, request):
-        pass
-
-    def delete(self, request):
-        pass
-
-
-class AnswerView(APIView):
-    def get(self, request):
-        answers = Answer.objects.all()
-        serializer = AnswerSerializer(answers, many=True)
-        return Response({"answers": serializer.data})
-
-    def post(self, request):
-        pass
-
-    def put(self, request):
-        pass
-
-    def delete(self, request):
-        pass
-
-
-class UserView(APIView):
-    def get(self, request):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response({"users": serializer.data})
-
-    def post(self, request):
-        pass
-
-    def put(self, request):
-        pass
-
-    def delete(self, request):
-        pass

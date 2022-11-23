@@ -41,42 +41,10 @@ def user_directory_path(instance, filename):
 
 
 class User(models.Model):
-    username = models.TextField(max_length=255, unique=True)
-    password = models.TextField(max_length=255)
-    email = models.EmailField(max_length=255, unique=True)
+
     profile_picture = models.FileField(
         upload_to=user_directory_path, null=True, blank=True
     )
 
     def __str__(self):
         return self.username
-
-
-class Answer(models.Model):
-    class OptionsInAnswer(models.TextChoices):
-        IDONTKNOW = ("idk"), _("I don't know")
-        IKNOW = ("ik"), _("I know")
-        ALMOST = ("alt"), _("Almost")
-
-    user = models.ForeignKey(
-        "User",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
-
-    word = models.ForeignKey(
-        "Word",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
-
-    knowledge = models.CharField(
-        max_length=3,
-        choices=OptionsInAnswer.choices,
-        default=OptionsInAnswer.IDONTKNOW,
-    )
-
-    def __str__(self):
-        return f"{self.user.username} - {self.word} - {self.knowledge}"

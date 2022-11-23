@@ -1,4 +1,4 @@
-from .models import Word, Category, Answer, User
+from .models import Word, Category
 from rest_framework import serializers
 
 
@@ -12,15 +12,3 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["category", "words"]
-
-
-class AnswerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Answer
-        fields = ["word", "user", "knowledge"]
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = "__all__"
