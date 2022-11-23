@@ -3,8 +3,6 @@ from .models import Word
 from .forms import WordForm, CategoryForm
 from .services import check_translated_word
 
-# Create your views here.
-
 
 def home(request):
     words = Word.objects.all()

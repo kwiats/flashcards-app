@@ -1,4 +1,4 @@
-from .models import Word, Category
+from cards.models import Word, Category
 from rest_framework import serializers
 
 
