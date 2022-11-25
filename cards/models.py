@@ -48,7 +48,6 @@ class CustomUser(AbstractUser):
     )
 
     score = models.IntegerField(blank=True, null=True)
-    learned = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.username
