@@ -41,7 +41,9 @@ def user_directory_path(instance, filename):
     return "user_{0}/{1}".format(instance.user.id, filename)
 
 
-class CustomUser(AbstractUser):
+class User(AbstractUser):
+    name = models.CharField(max_length=200, blank=True, null=True)
+    email = models.EmailField(null=True, unique=True)
 
     profile_picture = models.FileField(
         upload_to=user_directory_path, null=True, blank=True
@@ -49,5 +51,5 @@ class CustomUser(AbstractUser):
 
     score = models.IntegerField(blank=True, null=True)
 
-    def __str__(self):
-        return self.username
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]

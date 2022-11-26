@@ -1,18 +1,28 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import Word, Category, CustomUser
+from .models import Word, Category, User
 
 
-class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
-    model = CustomUser
-    list_display = ["email", "username"]
+@admin.register(User)
+class UserAdmin(UserAdmin):
+    add_fieldsets = (
+        (
+            "Profile",
+            {
+                "fields": (
+                    "username",
+                    "email",
+                    "password",
+                )
+            },
+        ),
+        (
+            "Advanced options",
+            {"fields": ("profile_picture",)},
+        ),
+    )
 
 
-# Register your models here.
-admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Word)
 admin.site.register(Category)
