@@ -24,5 +24,9 @@ class UserAdmin(UserAdmin):
     )
 
 
-admin.site.register(Word)
+@admin.register(Word)
+class WordAdmin(admin.ModelAdmin):
+    list_display = ("id", "word", "translated_word")
+
+
 admin.site.register(Category)
