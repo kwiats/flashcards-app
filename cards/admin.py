@@ -1,32 +1,80 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
+from django.utils.translation import gettext as _
+
 
 from .models import Word, Category, User
 
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
+    list_display = (
+        "email",
+        "username",
+        "score",
+        "is_active",
+    )
+    search_fields = ("email", "first_name", "last_name")
+    ordering = ("email",)
+
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (
+            _("Personal info"),
+            {"fields": ("first_name", "last_name", "email", "profile_picture")},
+        ),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+    )
+
     add_fieldsets = (
         (
-            "Profile",
+            None,
             {
+                "classes": ("wide",),
                 "fields": (
                     "username",
                     "email",
-                    "password",
-                )
+                    "password1",
+                    "password2",
+                    "profile_picture",
+                ),
             },
-        ),
-        (
-            "Advanced options",
-            {"fields": ("profile_picture",)},
         ),
     )
 
 
 @admin.register(Word)
 class WordAdmin(admin.ModelAdmin):
-    list_display = ("id", "word", "translated_word")
+    ordering = ("id",)
+
+    list_display = (
+        "id",
+        "word",
+        "translated_word",
+        "category_word",
+    )
 
 
-admin.site.register(Category)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "category",
+    )
+    ordering = ("id",)
+
+
+admin.site.unregister(Group)
