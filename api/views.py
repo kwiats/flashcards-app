@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.http import Http404
 
@@ -9,7 +10,10 @@ from .serializer import WordSerializer
 
 
 class WordListView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request):
+
         words = Word.objects.all()
         serializer = WordSerializer(words, many=True)
         return Response(serializer.data)
@@ -23,6 +27,8 @@ class WordListView(APIView):
 
 
 class WordDetailView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return Word.objects.get(pk=pk)

@@ -27,6 +27,9 @@ class Word(models.Model):
 
 
 class Category(models.Model):
+    user = models.ForeignKey(
+        "User", on_delete=models.CASCADE, related_name="categories"
+    )
 
     category = models.TextField(max_length=255)
 
@@ -50,7 +53,4 @@ class User(AbstractUser):
         upload_to=user_directory_path, null=True, blank=True
     )
 
-    score = models.IntegerField(blank=True, null=True)
-
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    score = models.IntegerField(default=0)

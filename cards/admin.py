@@ -15,8 +15,8 @@ class UserAdmin(UserAdmin):
         "score",
         "is_active",
     )
-    search_fields = ("email", "first_name", "last_name")
-    ordering = ("email",)
+    search_fields = ("username",)
+    ordering = ("username",)
 
     fieldsets = (
         (None, {"fields": ("username", "password")}),
