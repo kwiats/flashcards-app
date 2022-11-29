@@ -11,6 +11,14 @@ def add_points_for_user(pk):
     return score
 
 
+def minus_point_for_user(pk):
+    user_instance = User.objects.get(pk=pk)
+    user_instance.score -= 1
+    score = user_instance.score
+    user_instance.save()
+    return score
+
+
 def generator_word():
     return choice(Word.objects.all())
 
@@ -34,5 +42,6 @@ def check_translated_word(pk, user_answer):
         print(translated_word)
         print(user_answer)
         if translated_word == user_answer:
-            add_points_for_user(pk)
-        return None
+            return add_points_for_user(pk)
+        return minus_point_for_user(pk)
+    return None
