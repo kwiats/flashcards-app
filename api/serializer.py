@@ -3,8 +3,6 @@ from rest_framework import serializers
 
 
 class WordSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField()
-
     class Meta:
         model = Word
         fields = "__all__"

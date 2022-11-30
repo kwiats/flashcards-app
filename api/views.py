@@ -54,11 +54,12 @@ class WordDetailView(APIView):
 
     def put(self, request, pk, format=None):
         word = self.get_object(pk)
-        pdb.set_trace()
+
         if word:
             serializer = WordSerializer(word, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+
             return Response(serializer.data)
         serializer = WordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
