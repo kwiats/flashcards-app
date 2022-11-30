@@ -1,6 +1,12 @@
 from django.urls import path
 
-from .views import WordListView, WordDetailView, CategoryListView, CategoryDetailView
+from .views import (
+    WordListView,
+    WordDetailView,
+    CategoryListView,
+    CategoryDetailView,
+    UserListView,
+)
 
 
 urlpatterns = [
@@ -8,4 +14,5 @@ urlpatterns = [
     path("word/<int:pk>/", WordDetailView.as_view()),
     path("category/", CategoryListView.as_view()),
     path("category/<int:pk>/", CategoryDetailView.as_view()),
+    path("user/", UserListView.as_view()),
 ]
