@@ -3,12 +3,15 @@ from rest_framework import serializers
 
 
 class WordSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField()
+
     class Meta:
         model = Word
-        fields = ["id", "word", "translated_word"]
+        fields = "__all__"
+        write_only = ("id",)
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ["id", "user", "category", "words"]
+        fields = "__all__"
