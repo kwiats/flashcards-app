@@ -27,6 +27,7 @@ class WordListView(APIView):
 
 
 class WordDetailView(APIView):
+
     permission_classes = (IsAuthenticated,)
 
     def get_object(self, pk):
@@ -52,6 +53,7 @@ class WordDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk, format=None):
+
         word = self.get_object(pk)
 
         if word:
@@ -81,10 +83,9 @@ class CategoryListView(APIView):
 
     def post(self, request):
         serializer = CategorySerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class CategoryDetailView(APIView):
@@ -103,7 +104,6 @@ class CategoryDetailView(APIView):
 
     def put(self, request, pk, format=None):
         category = self.get_object(pk)
-
         if category:
             serializer = CategorySerializer(category, data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -116,11 +116,11 @@ class CategoryDetailView(APIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def post(self, request, pk, format=None):
-        serializer = CategorySerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # def post(self, request, pk, format=None):
+    #     serializer = CategorySerializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, pk):
         category = self.get_object(pk)

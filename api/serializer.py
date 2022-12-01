@@ -6,15 +6,12 @@ class WordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Word
         fields = "__all__"
-        write_only = ("id",)
-        depth = 1
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
-        write_only = ("id",)
 
 
 class UserSerializer(serializers.ModelSerializer):
