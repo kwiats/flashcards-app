@@ -109,12 +109,9 @@ class CategoryDetailView(APIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        # na dole, nalezy przekazac dane z id == pk
-        serializer = CategorySerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(
+            f"Category with id={pk} doesn't exists.", status=status.HTTP_404_NOT_FOUND
+        )
 
     # def post(self, request, pk, format=None):
     #     serializer = CategorySerializer(data=request.data)

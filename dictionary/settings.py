@@ -42,11 +42,14 @@ INSTALLED_APPS = [
     # third-party apps
     "rest_framework",
     "rest_framework.authtoken",
+    # required for serving swagger ui's css/js files
+    "drf_yasg",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication"
-    ]
+    ],
+    # "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 }
 
 MIDDLEWARE = [
