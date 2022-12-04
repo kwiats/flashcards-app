@@ -10,13 +10,13 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Snippets API",
-        default_version="v1",
-        description="Test description",
+        title="flashcards.app API",
+        default_version="v0.0.1",
+        description="Flashcards application is built for learning English vocabulary for Poles. By application, users can choose between 4 options(3 random translated word and 1 correct translated word), then application check your option with main transaltion. Application can give you some points for fastibility and good choice. It is possible to set vocabulary repetitions for the user. Users can show up your statistics about knows vocabulary.",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
+        contact=openapi.Contact(email="kontakt.pawelkwiatkowski@gmail.com"),
         license=openapi.License(name="BSD License"),
-    ), 
+    ),
     public=True,
     permission_classes=[permissions.AllowAny],
 )

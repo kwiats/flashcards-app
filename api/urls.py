@@ -10,10 +10,9 @@ from .views import (
 
 
 urlpatterns = [
-    path("word/", WordListView.as_view()),
-    path("word/<int:pk>/", WordDetailView.as_view()),
-    path("category/", CategoryListView.as_view()),
-    path("category/<int:pk>/", CategoryDetailView.as_view()),
-    path("user/", UserListView.as_view()),
-    
+    path("word/", WordListView.as_view(), name="all-words"),
+    path("word/<int:pk>/", WordDetailView.as_view(), name="single-word"),
+    path("category/", CategoryListView.as_view(), name="all-categories"),
+    path("category/<int:pk>/", CategoryDetailView.as_view(), name="single-category"),
+    path("user/", UserListView.as_view(), name="all-users"),
 ]
