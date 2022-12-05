@@ -49,6 +49,8 @@ class User(AbstractUser):
     name = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(null=True, unique=True)
 
+    # own_lists = ...
+
     profile_picture = models.FileField(
         upload_to=user_directory_path, null=True, blank=True
     )

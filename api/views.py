@@ -113,11 +113,11 @@ class CategoryDetailView(APIView):
             f"Category with id={pk} doesn't exists.", status=status.HTTP_404_NOT_FOUND
         )
 
-    # def post(self, request, pk, format=None):
-    #     serializer = CategorySerializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def post(self, request, pk, format=None):
+        serializer = CategorySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, pk):
         category = self.get_object(pk)
@@ -125,6 +125,10 @@ class CategoryDetailView(APIView):
         return Response(
             f"Category(id = {pk}) is deleted.", status=status.HTTP_204_NO_CONTENT
         )
+
+
+class ChangeCategoryName(APIView):
+    pass
 
 
 class UserListView(APIView):
@@ -142,3 +146,45 @@ class UserListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserDetailView(APIView):
+    print("User detail view")
+
+    def get_object(self, username):
+        try:
+            user = User.objects.get(username=username)
+            if user:
+                return user
+        except:
+            return None
+
+    def get(self, request, username):
+        user = self.get_object(username)
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post():
+        pass
+
+    def put():
+        pass
+
+    def delete():
+        pass
+
+
+class ChangeEmail(APIView):
+    pass
+
+
+class ChangePassword(APIView):
+    pass
+
+
+class ChangeProfilePicture(APIView):
+    pass
+
+
+class RankingListView(APIView):
+    pass
