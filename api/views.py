@@ -15,10 +15,17 @@ from .serializer import (
 
 
 class RankingListView(APIView):
-    def get(self, request):
+    def get(self, request, format=None):
         ranking = Ranking.objects.latest("ranking_date")
         serializer = RankingSerializer(ranking)
+        print(serializer.data)
         return Response(serializer.data)
+
+    def post(self, request):
+        serializer = RankingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class WordListView(APIView):
@@ -195,8 +202,4 @@ class ChangePassword(APIView):
 
 
 class ChangeProfilePicture(APIView):
-    pass
-
-
-class RankingListView(APIView):
     pass

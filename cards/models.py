@@ -9,9 +9,9 @@ class Ranking(models.Model):
     ranking_date = models.DateTimeField(auto_now=True)
     ranking_list = models.CharField(max_length=255, blank=True)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.ranking_list = dumps(actualize_rank())
-        super(Ranking, self).save()
+        super(Ranking, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.ranking_list
