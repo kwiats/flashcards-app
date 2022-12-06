@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.utils.translation import gettext as _
 
 
-from .models import Word, Category, User
+from .models import Word, Category, User, Ranking
 
 
 @admin.register(User)
@@ -75,6 +75,12 @@ class CategoryAdmin(admin.ModelAdmin):
         "category",
     )
     ordering = ("id",)
+
+
+@admin.register(Ranking)
+class RankingAdmin(admin.ModelAdmin):
+    list_display = ("id", "ranking_date", "ranking_list")
+    readonly_fields = ("ranking_list",)
 
 
 admin.site.unregister(Group)

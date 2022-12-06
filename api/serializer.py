@@ -1,4 +1,4 @@
-from cards.models import Word, Category, User
+from cards.models import Word, Category, User, Ranking
 from rest_framework import serializers
 
 
@@ -18,3 +18,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ["password"]
+
+
+class RankingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ranking
+        fields = "__all__"

@@ -7,6 +7,7 @@ from .views import (
     CategoryDetailView,
     UserListView,
     UserDetailView,
+    RankingListView,
 )
 
 
@@ -17,5 +18,5 @@ urlpatterns = [
     path("category/<int:pk>/", CategoryDetailView.as_view(), name="single-category"),
     path("user/", UserListView.as_view(), name="all-users"),
     path("user/<str:username>/", UserDetailView.as_view(), name="specific-user"),
-    # path("user/ranking/", RankingListView.as_view(), name="score-ranking"),
+    path("ranking/", RankingListView.as_view(), name="score-ranking"),
 ]

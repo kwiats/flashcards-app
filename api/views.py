@@ -5,8 +5,20 @@ from rest_framework import status
 import pdb
 
 
-from cards.models import Word, Category, User
-from .serializer import WordSerializer, CategorySerializer, UserSerializer
+from cards.models import Word, Category, User, Ranking
+from .serializer import (
+    WordSerializer,
+    CategorySerializer,
+    UserSerializer,
+    RankingSerializer,
+)
+
+
+class RankingListView(APIView):
+    def get(self, request):
+        ranking = Ranking.objects.latest("ranking_date")
+        serializer = RankingSerializer(ranking)
+        return Response(serializer.data)
 
 
 class WordListView(APIView):

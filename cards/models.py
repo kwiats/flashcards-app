@@ -2,6 +2,28 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, User
 from django.utils.translation import gettext_lazy as _
 
+from json import dumps
+
+
+class Ranking(models.Model):
+    ranking_date = models.DateTimeField(auto_now=True)
+    ranking_list = models.CharField(max_length=255, blank=True)
+
+    def save(self):
+        self.ranking_list = dumps(actualize_rank())
+        super(Ranking, self).save()
+
+    def __str__(self):
+        return self.ranking_list
+
+
+def actualize_rank():
+    user_list = {}
+    user_id = User.objects.all().order_by("-score").values_list("id", flat=True)
+    for index, id in enumerate(user_id):
+        user_list[index + 1] = id
+    return user_list
+
 
 class Word(models.Model):
 
@@ -49,6 +71,7 @@ class User(AbstractUser):
     name = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(null=True, unique=True)
 
+    # rank = ..
     # own_lists = ...
 
     profile_picture = models.FileField(
