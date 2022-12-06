@@ -23,12 +23,12 @@ urlpatterns = [
     path(
         "user/<str:username>/changeemail/",
         ChangeEmailView.as_view(),
-        name="specific-user",
+        name="change-email",
     ),
     path(
         "user/<str:username>/changepassword/",
         ChangePasswordView.as_view(),
-        name="specific-user",
+        name="change-password",
     ),
     path("ranking/", RankingListView.as_view(), name="score-ranking"),
 ]

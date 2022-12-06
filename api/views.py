@@ -194,12 +194,16 @@ class UserDetailView(APIView):
 
 
 class ChangeEmailView(APIView):
-    def get(self, request):
-        return Response("pracuje nad tym ;)")
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, username):
+        user = User.objects.get(username=username)
+        return Response(f"{user.email} - pracuje nad tym ;)")
 
 
 class ChangePasswordView(APIView):
-    def get(self, request):
-        return Response("pracuje nad tym ;)")
+    permission_classes = (IsAuthenticated,)
 
-
+    def get(self, request, username):
+        user = User.objects.get(username=username)
+        return Response(f"{user.password} - pracuje nad tym ;)")
