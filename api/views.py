@@ -193,13 +193,13 @@ class UserDetailView(APIView):
         pass
 
 
-class ChangeEmail(APIView):
-    pass
+class ChangeEmailView(APIView):
+    def get(self, request):
+        return Response("pracuje nad tym ;)")
 
 
-class ChangePassword(APIView):
-    pass
+class ChangePasswordView(APIView):
+    def get(self, request):
+        return Response("pracuje nad tym ;)")
 
 
-class ChangeProfilePicture(APIView):
-    pass

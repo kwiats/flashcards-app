@@ -8,6 +8,8 @@ from .views import (
     UserListView,
     UserDetailView,
     RankingListView,
+    ChangeEmailView,
+    ChangePasswordView,
 )
 
 
@@ -18,5 +20,15 @@ urlpatterns = [
     path("category/<int:pk>/", CategoryDetailView.as_view(), name="single-category"),
     path("user/", UserListView.as_view(), name="all-users"),
     path("user/<str:username>/", UserDetailView.as_view(), name="specific-user"),
+    path(
+        "user/<str:username>/changeemail/",
+        ChangeEmailView.as_view(),
+        name="specific-user",
+    ),
+    path(
+        "user/<str:username>/changepassword/",
+        ChangePasswordView.as_view(),
+        name="specific-user",
+    ),
     path("ranking/", RankingListView.as_view(), name="score-ranking"),
 ]
