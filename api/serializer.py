@@ -31,13 +31,7 @@ class RankingSerializer(serializers.ModelSerializer):
         ]
 
     def get_user_list(self, data):
-
-        if not hasattr(data, "id"):
-            return None
-        elif not isinstance(data, Ranking):
-            return None
-        else:
-            return data.actualize_rank()
+        return data.actualize_rank()
 
 
 class ChangePassword(serializers.ModelSerializer):
