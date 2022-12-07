@@ -8,6 +8,11 @@ from .views import (
     UserListView,
     UserDetailView,
     RankingListView,
+<<<<<<< Updated upstream
+=======
+    ChangeEmailView,
+    ChangePasswordView,
+>>>>>>> Stashed changes
 )
 
 
@@ -18,5 +23,18 @@ urlpatterns = [
     path("category/<int:pk>/", CategoryDetailView.as_view(), name="single-category"),
     path("user/", UserListView.as_view(), name="all-users"),
     path("user/<str:username>/", UserDetailView.as_view(), name="specific-user"),
+<<<<<<< Updated upstream
+=======
+    path(
+        "user/<str:username>/changeemail/",
+        ChangeEmailView.as_view(),
+        name="change-email",
+    ),
+    path(
+        "user/<str:username>/changepassword/",
+        ChangePasswordView.as_view(),
+        name="change-password",
+    ),
+>>>>>>> Stashed changes
     path("ranking/", RankingListView.as_view(), name="score-ranking"),
 ]
