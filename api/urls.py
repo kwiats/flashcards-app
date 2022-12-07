@@ -7,10 +7,9 @@ from .views import (
     CategoryDetailView,
     UserListView,
     UserDetailView,
-    # RankingListView,
+    RankingListView,
     ChangeEmailView,
     ChangePasswordView,
-    RankingMixinView,
 )
 
 
@@ -31,6 +30,5 @@ urlpatterns = [
         ChangePasswordView.as_view(),
         name="change-password",
     ),
-    path("ranking/", RankingMixinView.as_view(), name="score-ranking"),
-    # path("ranking/", RankingListView.as_view(), name="score-ranking"),
+    path("ranking/", RankingListView.as_view(), name="score-ranking"),
 ]
