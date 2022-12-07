@@ -7,6 +7,9 @@ db.sqlite3
 media
 images
 
+# mac system files #
+.DS_STORE
+
 # Backup files # 
 *.bak 
 
