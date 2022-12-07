@@ -79,8 +79,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Ranking)
 class RankingAdmin(admin.ModelAdmin):
-    list_display = ("id", "ranking_date", "ranking_list")
-    readonly_fields = ("ranking_list",)
+    pass
 
 
 admin.site.unregister(Group)

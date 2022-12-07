@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
+from rest_framework import status, mixins, generics
 import pdb
 
 
@@ -14,18 +14,28 @@ from .serializer import (
 )
 
 
-class RankingListView(APIView):
-    def get(self, request, format=None):
-        ranking = Ranking.objects.latest("ranking_date")
-        serializer = RankingSerializer(ranking)
-        print(serializer.data)
-        return Response(serializer.data)
+# class RankingListView(APIView):
+#     def get(self, request, format=None):
+#         ranking = Ranking.objects.latest("ranking_date")
+#         serializer = RankingSerializer(ranking)
+#         print(serializer.data)
+#         return Response(serializer.data)
 
-    def post(self, request):
-        serializer = RankingSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+#     def post(self, request):
+#         serializer = RankingSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class RankingMixinView(mixins.ListModelMixin, generics.GenericAPIView):
+    queryset = Ranking.objects.all()
+    serializer_class = RankingSerializer
+    lookup_field = "pk"
+
+    def get(self, request, *args, **kwargs):
+        print(*args, **kwargs)
+        return self.list(request, *args, **kwargs)
 
 
 class WordListView(APIView):
@@ -199,6 +209,9 @@ class ChangeEmailView(APIView):
     def get(self, request, username):
         user = User.objects.get(username=username)
         return Response(f"{user.email} - pracuje nad tym ;)")
+
+    def post(self, request, username):
+        pass
 
 
 class ChangePasswordView(APIView):
