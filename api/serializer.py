@@ -23,9 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
 class RankingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ranking
-<<<<<<< Updated upstream
-        fields = "__all__"
-=======
         fields = [
             "user_list",
         ]
@@ -63,4 +60,3 @@ class ChangePassword(serializers.ModelSerializer):
         instance.save()
 
         return instance
->>>>>>> Stashed changes
