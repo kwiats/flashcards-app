@@ -193,13 +193,13 @@ class UserDetailView(APIView):
         pass
 
 
-class ChangeEmail(APIView):
+class ChangeEmailView(APIView):
     pass
 
 
-class ChangePassword(APIView):
+class ChangePasswordView(APIView):
     pass
 
 
-class ChangeProfilePicture(APIView):
+class ChangeProfilePictureView(APIView):
     pass

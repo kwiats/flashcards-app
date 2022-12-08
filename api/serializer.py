@@ -1,5 +1,6 @@
 from cards.models import Word, Category, User, Ranking
 from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
 
 
 class WordSerializer(serializers.ModelSerializer):
