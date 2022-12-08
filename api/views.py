@@ -18,7 +18,6 @@ class RankingListView(APIView):
     def get(self, request, format=None):
         ranking = Ranking.objects.latest("ranking_date")
         serializer = RankingSerializer(ranking)
-        print(serializer.data)
         return Response(serializer.data)
 
     def post(self, request):

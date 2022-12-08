@@ -22,6 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RankingSerializer(serializers.ModelSerializer):
+    user_list = serializers.SerializerMethodField()
+
     class Meta:
         model = Ranking
         fields = [

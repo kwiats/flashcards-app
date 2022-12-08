@@ -10,19 +10,18 @@ class Ranking(models.Model):
     ranking_list = models.CharField(max_length=255, blank=True)
 
     def save(self, *args, **kwargs):
-        self.ranking_list = dumps(actualize_rank())
+        self.ranking_list = dumps(self.actualize_rank())
         super(Ranking, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.ranking_list
 
-
-def actualize_rank():
-    user_list = {}
-    user_id = User.objects.all().order_by("-score").values_list("id", flat=True)
-    for index, id in enumerate(user_id):
-        user_list[index + 1] = id
-    return user_list
+    def actualize_rank(self):
+        user_list = {}
+        user_id = User.objects.all().order_by("-score").values_list("id", flat=True)
+        for index, id in enumerate(user_id):
+            user_list[index + 1] = id
+        return user_list
 
 
 class Word(models.Model):
