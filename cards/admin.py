@@ -22,7 +22,15 @@ class UserAdmin(UserAdmin):
         (None, {"fields": ("username", "password")}),
         (
             _("Personal info"),
-            {"fields": ("first_name", "last_name", "email", "profile_picture")},
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "profile_picture",
+                    "score",
+                )
+            },
         ),
         (
             _("Permissions"),
