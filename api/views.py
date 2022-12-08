@@ -20,12 +20,6 @@ class RankingListView(APIView):
         serializer = RankingSerializer(ranking)
         return Response(serializer.data)
 
-    def post(self, request):
-        serializer = RankingSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
 
 class WordListView(APIView):
     permission_classes = (IsAuthenticated,)
