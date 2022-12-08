@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RankingSerializer(serializers.ModelSerializer):
-    user_list = serializers.SerializerMethodField()
+    user_list = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Ranking
