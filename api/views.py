@@ -163,21 +163,21 @@ class UserListView(APIView):
 class UserDetailView(APIView):
     print("User detail view")
 
-    def get_object(self, username):
+    def get_object(self, pk):
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(pk=pk)
             if user:
                 return user
         except:
             return None
 
-    def get(self, request, username):
-        user = self.get_object(username)
+    def get(self, request, pk):
+        user = self.get_object(pk)
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, username):
-        user = self.get_object(username)
+    def put(self, request, pk):
+        user = self.get_object(pk)
         if user:
             serializer = UserSerializer(user, data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -185,10 +185,10 @@ class UserDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
-    def delete(self, request, username):
-        user = self.get_object(username)
+    def delete(self, request, pk):
+        user = self.get_object(pk)
         user.delete()
-        return Response(f"{username} is deleted.", status=status.HTTP_200_OK)
+        return Response("User is deleted.", status=status.HTTP_200_OK)
 
 
 class ChangeEmailView(APIView):
