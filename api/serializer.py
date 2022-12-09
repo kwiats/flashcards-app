@@ -35,8 +35,8 @@ class RankingSerializer(serializers.ModelSerializer):
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
-    new_password = serializers.CharField(write_only=True)
-    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField()
+    old_password = serializers.CharField()
 
     class Meta:
         model = User

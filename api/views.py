@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status, mixins, generics
+from django.contrib.auth.hashers import check_password
 import pdb
 
 
@@ -197,21 +198,20 @@ class ChangePasswordView(APIView):
         except:
             return None
 
-    def get(self, request):
-        return Response("Nothing..")
-
     def put(self, request, pk):
         user = self.get_object(pk)
         serializer = ChangePasswordSerializer(data=request.data)
+        print(request.data)
         if serializer.is_valid():
             old_password = serializer.data.get("old_password")
-
-            if not user.check_password(old_password):
+            new_password = serializer.data.get("new_password")
+            print(old_password, new_password)
+            if not user.check_password(self, raw_password=old_password):
                 return Response(
                     ({"old_password": "Wrong password.."}),
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            new_password = serializer.data.get("new_password")
+
             user.set_password(new_password)
             serializer.save()
             return Response(
