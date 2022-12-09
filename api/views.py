@@ -39,9 +39,10 @@ class WordDetailView(APIView):
 
     def get_object(self, pk):
         try:
-            return Word.objects.get(pk=pk)
-        except:
+            word = Word.objects.get(pk=pk)
+        except Word.DoesNotExist:
             return None
+        return word
 
     def get(self, request, pk, format=None):
         word = self.get_object(pk)
@@ -100,9 +101,10 @@ class CategoryDetailView(APIView):
 
     def get_object(self, pk):
         try:
-            return Category.objects.get(pk=pk)
-        except:
+            category = Category.objects.get(pk=pk)
+        except Category.DoesNotExist:
             return None
+        return category
 
     def get(self, request, pk, format=None):
         category = self.get_object(pk)
@@ -152,15 +154,12 @@ class UserListView(APIView):
 
 
 class UserDetailView(APIView):
-    print("User detail view")
-
     def get_object(self, pk):
         try:
             user = User.objects.get(pk=pk)
-            if user:
-                return user
-        except:
+        except User.DoesNotExist:
             return None
+        return user
 
     def get(self, request, pk):
         user = self.get_object(pk)
@@ -193,7 +192,6 @@ class ChangePasswordView(APIView):
     def get_object(self, pk):
         try:
             user = User.objects.get(pk=pk)
-
         except User.DoesNotExist:
             return None
         return user
