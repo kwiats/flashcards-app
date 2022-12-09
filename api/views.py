@@ -193,10 +193,10 @@ class ChangePasswordView(APIView):
     def get_object(self, pk):
         try:
             user = User.objects.get(pk=pk)
-            if user:
-                return User
-        except:
+
+        except User.DoesNotExist:
             return None
+        return user
 
     def put(self, request, pk):
         user = self.get_object(pk)
@@ -206,14 +206,14 @@ class ChangePasswordView(APIView):
             old_password = serializer.data.get("old_password")
             new_password = serializer.data.get("new_password")
             print(old_password, new_password)
-            if not user.check_password(self, raw_password=old_password):
+            if not user.check_password(raw_password=old_password):
                 return Response(
                     ({"old_password": "Wrong password.."}),
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
             user.set_password(new_password)
-            serializer.save()
+            user.save()
             return Response(
                 "Password is succesfully updated.",
                 status=status.HTTP_206_PARTIAL_CONTENT,
