@@ -197,7 +197,3 @@ class ChangeEmailView(APIView):
 
 class ChangePasswordView(APIView):
     pass
-
-
-class ChangeProfilePictureView(APIView):
-    pass

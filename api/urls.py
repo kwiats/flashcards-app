@@ -21,7 +21,7 @@ urlpatterns = [
     path("user/", UserListView.as_view(), name="all-users"),
     path("user/<int:pk>/", UserDetailView.as_view(), name="specific-user"),
     path(
-        "user/<int:pk>/changeemail/",
+        "user/<int:pk>/change-email/",
         ChangeEmailView.as_view(),
         name="change-email",
     ),
@@ -31,4 +31,6 @@ urlpatterns = [
         name="change-password",
     ),
     path("ranking/", RankingListView.as_view(), name="score-ranking"),
+    # path("/user/<int:pk>/score"),
+    # path("/user/<int:pk>/score/add-points"),
 ]
