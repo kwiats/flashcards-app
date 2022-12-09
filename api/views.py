@@ -188,7 +188,7 @@ class RankingListView(APIView):
         return Response(serializer.data)
 
 
-class ChangeEmailView(APIView):
+class ChangePasswordView(APIView):
     def get_object(self, pk):
         try:
             user = User.objects.get(pk=pk)
@@ -221,5 +221,5 @@ class ChangeEmailView(APIView):
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
-class ChangePasswordView(APIView):
+class ChangeEmailView(APIView):
     pass
