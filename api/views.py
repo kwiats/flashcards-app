@@ -11,14 +11,8 @@ from .serializer import (
     CategorySerializer,
     UserSerializer,
     RankingSerializer,
+    ChangePasswordSerializer,
 )
-
-
-class RankingListView(APIView):
-    def get(self, request, format=None):
-        ranking = Ranking.objects.latest("ranking_date")
-        serializer = RankingSerializer(ranking)
-        return Response(serializer.data)
 
 
 class WordListView(APIView):
@@ -139,10 +133,6 @@ class CategoryDetailView(APIView):
         )
 
 
-class ChangeCategoryName(APIView):
-    pass
-
-
 class UserListView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -191,8 +181,44 @@ class UserDetailView(APIView):
         return Response("User is deleted.", status=status.HTTP_200_OK)
 
 
+class RankingListView(APIView):
+    def get(self, request, format=None):
+        ranking = Ranking.objects.latest("ranking_date")
+        serializer = RankingSerializer(ranking)
+        return Response(serializer.data)
+
+
 class ChangeEmailView(APIView):
-    pass
+    def get_object(self, pk):
+        try:
+            user = User.objects.get(pk=pk)
+            if user:
+                return User
+        except:
+            return None
+
+    def get(self, request):
+        return Response("Nothing..")
+
+    def put(self, request, pk):
+        user = self.get_object(pk)
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            old_password = serializer.data.get("old_password")
+
+            if not user.check_password(old_password):
+                return Response(
+                    ({"old_password": "Wrong password.."}),
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            new_password = serializer.data.get("new_password")
+            user.set_password(new_password)
+            serializer.save()
+            return Response(
+                "Password is succesfully updated.",
+                status=status.HTTP_206_PARTIAL_CONTENT,
+            )
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
 class ChangePasswordView(APIView):

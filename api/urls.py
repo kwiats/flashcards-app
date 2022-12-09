@@ -20,11 +20,11 @@ urlpatterns = [
     path("category/<int:pk>/", CategoryDetailView.as_view(), name="single-category"),
     path("user/", UserListView.as_view(), name="all-users"),
     path("user/<int:pk>/", UserDetailView.as_view(), name="specific-user"),
-    path(
-        "user/<int:pk>/change-email/",
-        ChangeEmailView.as_view(),
-        name="change-email",
-    ),
+    # path(
+    #     "user/<int:pk>/change-email/",
+    #     ChangeEmailView.as_view(),
+    #     name="change-email",
+    # ),
     path(
         "user/<int:pk>/change-password/",
         ChangePasswordView.as_view(),
