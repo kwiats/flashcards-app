@@ -46,3 +46,7 @@ User:
 
 **Login -** test_user
 **Password -** test_user
+
+### Roadmap - notion
+
+[Link here!](https://cat-ghoul-4e1.notion.site/cd52bb7c4c4940cd986431ec0ef96d3c?v=666e1a7f9f91412894a9b2d9b247ffd8)
