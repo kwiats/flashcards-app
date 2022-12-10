@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status, mixins, generics
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import make_password
 import pdb
 
 
@@ -11,6 +12,7 @@ from .serializer import (
     WordSerializer,
     CategorySerializer,
     UserSerializer,
+    UserDetailSerializer,
     RankingSerializer,
     ChangePasswordSerializer,
 )
@@ -48,17 +50,6 @@ class WordDetailView(APIView):
         word = self.get_object(pk)
         serializer = WordSerializer(word)
         return Response(serializer.data)
-
-    def post(self, request, pk, format=None):
-        serializer = WordSerializer(data=request.data)
-
-        if serializer.is_valid():
-
-            serializer.save()
-            return Response(
-                serializer.data, status=status.HTTP_201_CREATED, raise_exception=True
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk, format=None):
 
@@ -154,6 +145,8 @@ class UserListView(APIView):
 
 
 class UserDetailView(APIView):
+    class_serializer = UserDetailSerializer
+
     def get_object(self, pk):
         try:
             user = User.objects.get(pk=pk)
@@ -163,15 +156,17 @@ class UserDetailView(APIView):
 
     def get(self, request, pk):
         user = self.get_object(pk)
-        serializer = UserSerializer(user)
+        serializer = self.class_serializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
         user = self.get_object(pk)
         if user:
             serializer = UserSerializer(user, data=request.data)
+            user.password = make_password(request.data["passowrd"])
             serializer.is_valid(raise_exception=True)
             serializer.save()
+
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 

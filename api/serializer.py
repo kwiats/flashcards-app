@@ -21,6 +21,12 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ["password"]
 
 
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
+
+
 class RankingSerializer(serializers.ModelSerializer):
     user_list = serializers.SerializerMethodField(read_only=True)
 
