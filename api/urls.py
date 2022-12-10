@@ -1,4 +1,6 @@
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 from .views import (
     WordListView,
@@ -14,6 +16,7 @@ from .views import (
 
 
 urlpatterns = [
+    path("auth-token/", obtain_auth_token, name="obtain-auth-token"),
     path("word/", WordListView.as_view(), name="all-words"),
     path("word/<int:pk>/", WordDetailView.as_view(), name="single-word"),
     path("category/", CategoryListView.as_view(), name="all-categories"),
