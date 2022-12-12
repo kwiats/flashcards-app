@@ -26,6 +26,12 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = User
         fields = "__all__"
 
+    def create():
+        pass
+
+    def update():
+        pass
+
 
 class RankingSerializer(serializers.ModelSerializer):
     user_list = serializers.SerializerMethodField(read_only=True)
