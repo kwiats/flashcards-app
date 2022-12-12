@@ -1,6 +1,8 @@
+import pdb
 from cards.models import Word, Category, User, Ranking
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.hashers import make_password
 
 
 class WordSerializer(serializers.ModelSerializer):
@@ -25,12 +27,29 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+        extra_kwargs = {"password": {"write_only": True}}
 
-    def create():
-        pass
+    def create(self, validated_data):
+        user = User(**validated_data)
+        user.set_password(validated_data.get("password"))
+        user.save()
+        return user
 
-    def update():
-        pass
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get("username", instance.username)
+        password = validated_data.get("password", instance.password)
+        instance.set_password(password)
+        instance.email = validated_data.get("email", instance.email)
+        instance.save()
+        return instance
+
+    def partial_update(self, instance, validated_data):
+
+        pdb.set_trace(**validated_data)
+        # Uaktualnij pola
+        instance.update(**validated_data)
+
+        return instance
 
 
 class RankingSerializer(serializers.ModelSerializer):

@@ -137,7 +137,7 @@ class UserListView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = UserDetailSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -145,8 +145,6 @@ class UserListView(APIView):
 
 
 class UserDetailView(APIView):
-    class_serializer = UserDetailSerializer
-
     def get_object(self, pk):
         try:
             user = User.objects.get(pk=pk)
@@ -156,14 +154,35 @@ class UserDetailView(APIView):
 
     def get(self, request, pk):
         user = self.get_object(pk)
-        serializer = self.class_serializer(user)
+        serializer = UserDetailSerializer(user)
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
         user = self.get_object(pk)
         if user:
-            serializer = UserSerializer(user, data=request.data)
-            user.password = make_password(request.data["passowrd"])
+            serializer = UserDetailSerializer(user, data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, pk):
+        if "password" in request.data:
+            return Response(
+                f"You cannot update your passowrd. Use endpoint url /api/{pk}/change-passowrd/ ",
+                status=status.HTTP_204_NO_CONTENT,
+            )
+        if "email" in request.data:
+            return Response(
+                f"You cannot update your email. Use endpoint url /api/{pk}/change-email/ ",
+                status=status.HTTP_204_NO_CONTENT,
+            )
+
+        user = self.get_object(pk)
+
+        if user:
+            serializer = UserSerializer(user, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
 
