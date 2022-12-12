@@ -168,6 +168,17 @@ class UserDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, pk):
+        if "password" in request.data:
+            return Response(
+                f"You cannot update your passowrd. Use endpoint url /api/{pk}/change-passowrd/ ",
+                status=status.HTTP_204_NO_CONTENT,
+            )
+        if "email" in request.data:
+            return Response(
+                f"You cannot update your email. Use endpoint url /api/{pk}/change-email/ ",
+                status=status.HTTP_204_NO_CONTENT,
+            )
+
         user = self.get_object(pk)
 
         if user:
@@ -177,10 +188,6 @@ class UserDetailView(APIView):
 
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
-        # return Response(
-        #     f"You cannot update your passowrd. Use endpoint url /api/{pk}/change-passowrd ",
-        #     status=status.HTTP_204_NO_CONTENT,
-        # )
 
     def delete(self, request, pk):
         user = self.get_object(pk)
