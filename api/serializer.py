@@ -1,3 +1,4 @@
+import pdb
 from cards.models import Word, Category, User, Ranking
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
@@ -40,6 +41,14 @@ class UserDetailSerializer(serializers.ModelSerializer):
         instance.set_password(password)
         instance.email = validated_data.get("email", instance.email)
         instance.save()
+        return instance
+
+    def partial_update(self, instance, validated_data):
+
+        pdb.set_trace(**validated_data)
+        # Uaktualnij pola
+        instance.update(**validated_data)
+
         return instance
 
 

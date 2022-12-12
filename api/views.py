@@ -167,6 +167,21 @@ class UserDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
+    def patch(self, request, pk):
+        user = self.get_object(pk)
+
+        if user:
+            serializer = UserSerializer(user, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+        # return Response(
+        #     f"You cannot update your passowrd. Use endpoint url /api/{pk}/change-passowrd ",
+        #     status=status.HTTP_204_NO_CONTENT,
+        # )
+
     def delete(self, request, pk):
         user = self.get_object(pk)
         user.delete()
