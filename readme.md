@@ -1,11 +1,6 @@
 # Flashcards.app
 
-Flashcards application is built for learning English vocabulary for Poles.
-By application, users can choose between 4 options(3 random translated word and 1 correct translated word),
-then application check your option with main transaltion.
-Application can give you some points for fastibility and good choice.
-It is possible to set vocabulary repetitions for the user.
-Users can show up your statistics about knows vocabulary.
+The application is a dictionary quiz that displays an English word and four of its translations in Polish. The user must select the correct translation and receive points for it. The application can offer different levels of difficulty and categories of words, such as animal names, everyday objects, sports, etc. The user can also collect points and achieve higher levels, adding challenge and motivation to learn new words. This application may be useful for people learning English or wanting to improve their skills.
 
 ## API endpoints
 
