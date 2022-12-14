@@ -2,6 +2,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status, mixins, generics
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import make_password
 import pdb
 
 
@@ -10,15 +12,10 @@ from .serializer import (
     WordSerializer,
     CategorySerializer,
     UserSerializer,
+    UserDetailSerializer,
     RankingSerializer,
+    ChangePasswordSerializer,
 )
-
-
-class RankingListView(APIView):
-    def get(self, request, format=None):
-        ranking = Ranking.objects.latest("ranking_date")
-        serializer = RankingSerializer(ranking)
-        return Response(serializer.data)
 
 
 class WordListView(APIView):
@@ -44,25 +41,15 @@ class WordDetailView(APIView):
 
     def get_object(self, pk):
         try:
-            return Word.objects.get(pk=pk)
-        except:
+            word = Word.objects.get(pk=pk)
+        except Word.DoesNotExist:
             return None
+        return word
 
     def get(self, request, pk, format=None):
         word = self.get_object(pk)
         serializer = WordSerializer(word)
         return Response(serializer.data)
-
-    def post(self, request, pk, format=None):
-        serializer = WordSerializer(data=request.data)
-
-        if serializer.is_valid():
-
-            serializer.save()
-            return Response(
-                serializer.data, status=status.HTTP_201_CREATED, raise_exception=True
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk, format=None):
 
@@ -105,9 +92,10 @@ class CategoryDetailView(APIView):
 
     def get_object(self, pk):
         try:
-            return Category.objects.get(pk=pk)
-        except:
+            category = Category.objects.get(pk=pk)
+        except Category.DoesNotExist:
             return None
+        return category
 
     def get(self, request, pk, format=None):
         category = self.get_object(pk)
@@ -139,10 +127,6 @@ class CategoryDetailView(APIView):
         )
 
 
-class ChangeCategoryName(APIView):
-    pass
-
-
 class UserListView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -153,7 +137,7 @@ class UserListView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = UserDetailSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -161,38 +145,93 @@ class UserListView(APIView):
 
 
 class UserDetailView(APIView):
-    print("User detail view")
-
-    def get_object(self, username):
+    def get_object(self, pk):
         try:
-            user = User.objects.get(username=username)
-            if user:
-                return user
-        except:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
             return None
+        return user
 
-    def get(self, request, username):
-        user = self.get_object(username)
-        serializer = UserSerializer(user)
+    def get(self, request, pk):
+        user = self.get_object(pk)
+        serializer = UserDetailSerializer(user)
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post():
-        pass
+    def put(self, request, pk):
+        user = self.get_object(pk)
+        if user:
+            serializer = UserDetailSerializer(user, data=request.data)
+            serializer.is_valid(raise_exception=True)
 
-    def put():
-        pass
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
-    def delete():
-        pass
+    def patch(self, request, pk):
+        if "password" in request.data:
+            return Response(
+                f"You cannot update your passowrd. Use endpoint url /api/{pk}/change-passowrd/ ",
+                status=status.HTTP_204_NO_CONTENT,
+            )
+        if "email" in request.data:
+            return Response(
+                f"You cannot update your email. Use endpoint url /api/{pk}/change-email/ ",
+                status=status.HTTP_204_NO_CONTENT,
+            )
+
+        user = self.get_object(pk)
+
+        if user:
+            serializer = UserSerializer(user, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, pk):
+        user = self.get_object(pk)
+        user.delete()
+        return Response("User is deleted.", status=status.HTTP_200_OK)
 
 
-class ChangeEmailView(APIView):
-    pass
+class RankingListView(APIView):
+    def get(self, request, format=None):
+        ranking = Ranking.objects.latest("ranking_date")
+        serializer = RankingSerializer(ranking)
+        return Response(serializer.data)
 
 
 class ChangePasswordView(APIView):
-    pass
+    def get_object(self, pk):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return None
+        return user
+
+    def put(self, request, pk):
+        user = self.get_object(pk)
+        serializer = ChangePasswordSerializer(data=request.data)
+        print(request.data)
+        if serializer.is_valid():
+            old_password = serializer.data.get("old_password")
+            new_password = serializer.data.get("new_password")
+            print(old_password, new_password)
+            if not user.check_password(raw_password=old_password):
+                return Response(
+                    ({"old_password": "Wrong password.."}),
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            user.set_password(new_password)
+            user.save()
+            return Response(
+                "Password is succesfully updated.",
+                status=status.HTTP_206_PARTIAL_CONTENT,
+            )
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
-class ChangeProfilePictureView(APIView):
+class ChangeEmailView(APIView):
     pass

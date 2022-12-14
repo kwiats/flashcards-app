@@ -15,36 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 from rest_framework import permissions
+
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="flashcards.app API",
-        default_version="v0.0.1",
-        description="Flashcards application is built for learning English vocabulary for Poles. By application, users can choose between 4 options(3 random translated word and 1 correct translated word), then application check your option with main transaltion. Application can give you some points for fastibility and good choice. It is possible to set vocabulary repetitions for the user. Users can show up your statistics about knows vocabulary.",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="kontakt.pawelkwiatkowski@gmail.com"),
-        license=openapi.License(name="BSD License"),
-    ),
-    public=True,
-    permission_classes=[permissions.AllowAny],
-)
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("cards.urls")),
-    path("", include("api.urls")),
+    path("api/", include("api.urls")),
+    path("api/schema.yaml/", SpectacularAPIView.as_view(), name="schema"),
     path(
-        "swagger/",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
-    ),
-    path(
-        "redoc/",
-        schema_view.with_ui("redoc", cache_timeout=0),
-        name="schema-redoc-ui",
+        "api/docs/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
     ),
 ]

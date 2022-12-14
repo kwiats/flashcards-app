@@ -43,19 +43,22 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     # required for serving swagger ui's css/js files
-    "drf_yasg",
+    "drf_spectacular",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication"
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SWAGGER_SETTINGS = {
-    "USE_SESSION_AUTH": False,
-    "SECURITY_DEFINITIONS": {
-        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
-    },
+    "TITLE": "flashcards.app API",
+    "DESCRIPTION": ":)",
+    "VERSION": "v0.0.1",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SCHEMA_PATH_PREFIX": "api/",
+    "SECURITY": {"Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}},
 }
 
 

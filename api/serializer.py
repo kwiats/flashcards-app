@@ -1,6 +1,8 @@
+import pdb
 from cards.models import Word, Category, User, Ranking
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.hashers import make_password
 
 
 class WordSerializer(serializers.ModelSerializer):
@@ -21,6 +23,35 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ["password"]
 
 
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def create(self, validated_data):
+        user = User(**validated_data)
+        user.set_password(validated_data.get("password"))
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get("username", instance.username)
+        password = validated_data.get("password", instance.password)
+        instance.set_password(password)
+        instance.email = validated_data.get("email", instance.email)
+        instance.save()
+        return instance
+
+    def partial_update(self, instance, validated_data):
+
+        pdb.set_trace(**validated_data)
+        # Uaktualnij pola
+        instance.update(**validated_data)
+
+        return instance
+
+
 class RankingSerializer(serializers.ModelSerializer):
     user_list = serializers.SerializerMethodField(read_only=True)
 
@@ -34,32 +65,17 @@ class RankingSerializer(serializers.ModelSerializer):
         return data.actualize_rank()
 
 
-class ChangePassword(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True)
-    oldpassword = serializers.CharField(write_only=True)
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    new_password = serializers.CharField()
+    old_password = serializers.CharField()
 
     class Meta:
         model = User
-        fields = ("oldpassword", "password", "password2")
+        fields = (
+            "old_password",
+            "new_password",
+        )
 
-    def validate(self, atrb):
-        if atrb["password"] != atrb["password2"]:
-            raise serializers.ValidationError(
-                {"password": "Password doesnt match with confirm password."}
-            )
-        return atrb
-
-    def validate_old_password(self, value):
-        user = self.context["request"].user
-        if not user.check_password(value):
-            raise serializers.ValidationError(
-                {"old_password": "Old password is not correct."}
-            )
+    def validate_new_password(self, value):
+        validate_password(value)
         return value
-
-    def update(self, instance, validate_data):
-        instance.set_password(validate_data["password"])
-        instance.save()
-
-        return instance
