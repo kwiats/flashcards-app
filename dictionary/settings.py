@@ -101,11 +101,12 @@ WSGI_APPLICATION = "dictionary.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
+    ## Jesli docker nalezy skorzystac z innych env dla username, pass oraz host
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": env["POSTGRES_NAME"],
         "USER": env["POSTGRES_USERNAME"],
-        "PASSWORD": "",
+        "PASSWORD": env["POSTGRES_PASS"],
         "HOST": env["POSTGRES_HOST"],
         "PORT": "",
     }
