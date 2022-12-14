@@ -9,8 +9,14 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import os
+import pdb
 
 from pathlib import Path
+from dotenv import load_dotenv, dotenv_values
+
+
+env = dotenv_values(".env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,9 +52,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
 ]
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication"
-    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework.authentication.TokenAuthentication"],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
@@ -99,10 +103,10 @@ WSGI_APPLICATION = "dictionary.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "flashcards",
-        "USER": "flashcards",
-        "PASSWORD": "123456789",
-        "HOST": "db",
+        "NAME": env["POSTGRES_NAME"],
+        "USER": env["POSTGRES_USERNAME"],
+        "PASSWORD": "",
+        "HOST": env["POSTGRES_HOST"],
         "PORT": "",
     }
 }
