@@ -10,7 +10,9 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASS_DOCKER}
   web:
     container_name: django
-    build: .
+    build: 
+      context: .
+      dockerfile: .Docker/Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code/
