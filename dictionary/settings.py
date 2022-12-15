@@ -9,8 +9,14 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import os
+import pdb
 
 from pathlib import Path
+from dotenv import load_dotenv, dotenv_values
+
+
+env = dotenv_values(".env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-_^wy1j*eb0a$ssa3gy*0e-9w+j3&pgf2g$8livs2y7yl9!!nd="
+SECRET_KEY = env["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["0.0.0.0"]
 
 
 # Application definition
@@ -46,9 +52,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
 ]
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication"
-    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework.authentication.TokenAuthentication"],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
@@ -97,12 +101,13 @@ WSGI_APPLICATION = "dictionary.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
+    ## Jesli docker nalezy skorzystac z innych env dla username, pass oraz host
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "flashcards",
-        "USER": "pawelkwiatkowski",
-        "PASSWORD": "",
-        "HOST": "localhost",
+        "NAME": env["POSTGRES_NAME"],
+        "USER": env["POSTGRES_USERNAME"],
+        "PASSWORD": env["POSTGRES_PASS"],
+        "HOST": env["POSTGRES_HOST"],
         "PORT": "",
     }
 }
