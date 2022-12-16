@@ -18,7 +18,7 @@ class Ranking(models.Model):
 
     def actualize_rank(self):
         user_list = {}
-        user_id = User.objects.all().order_by("-current_score").values_list("id", flat=True)
+        user_id = User.objects.all().order_by("-total_score").values_list("id", flat=True)
         for index, id in enumerate(user_id):
             user_list[index + 1] = id
         return user_list
