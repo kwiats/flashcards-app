@@ -12,7 +12,7 @@ class UserAdmin(UserAdmin):
     list_display = (
         "email",
         "username",
-        "score",
+        "total_score",
         "is_active",
     )
     search_fields = ("username",)
@@ -28,7 +28,9 @@ class UserAdmin(UserAdmin):
                     "last_name",
                     "email",
                     "profile_picture",
-                    "score",
+                    "total_score",
+                    "current_score",
+                    "spend_score",
                 )
             },
         ),
