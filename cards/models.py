@@ -18,7 +18,7 @@ class Ranking(models.Model):
 
     def actualize_rank(self):
         user_list = {}
-        user_id = User.objects.all().order_by("-score").values_list("id", flat=True)
+        user_id = User.objects.all().order_by("-total_score").values_list("id", flat=True)
         for index, id in enumerate(user_id):
             user_list[index + 1] = id
         return user_list
@@ -48,9 +48,7 @@ class Word(models.Model):
 
 
 class Category(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="categories"
-    )
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="categories")
 
     category = models.TextField(max_length=255)
 
@@ -69,12 +67,16 @@ class User(AbstractUser):
 
     name = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(null=True, unique=True)
+    profile_picture = models.FileField(upload_to=user_directory_path, null=True, blank=True)
 
-    # rank = ..
-    # own_lists = ...
+    current_score = models.IntegerField(default=0)
+    spend_score = models.IntegerField(default=0)
+    total_score = models.PositiveIntegerField(db_index=True)
 
-    profile_picture = models.FileField(
-        upload_to=user_directory_path, null=True, blank=True
-    )
+    @property
+    def sum_score(self):
+        return self.current_score + self.spend_score
 
-    score = models.IntegerField(default=0)
+    def save(self,*args, **kwargs):
+        self.total_score = self.sum_score
+        super(User, self).save(*args, **kwargs)
