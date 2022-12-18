@@ -75,6 +75,7 @@ class WordAdmin(admin.ModelAdmin):
         "word",
         "translated_word",
         "user",
+        "status",
     )
 
 
