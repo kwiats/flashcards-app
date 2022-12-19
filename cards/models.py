@@ -7,14 +7,19 @@ from json import dumps
 
 class Ranking(models.Model):
     ranking_date = models.DateTimeField(auto_now=True)
-    ranking_list = models.CharField(max_length=255, blank=True)
+    ranking_name = models.CharField(max_length=50, blank=True)
 
+    @property
+    def set_ranking_list(self):
+        ranking = dumps(self.actualize_rank())
+        return ranking
+    
     def save(self, *args, **kwargs):
-        self.ranking_list = dumps(self.actualize_rank())
+        self.ranking = self.set_ranking_list
         super(Ranking, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.ranking_list
+        return self.ranking_name
 
     def actualize_rank(self):
         user_list = {}
@@ -26,7 +31,7 @@ class Ranking(models.Model):
 
 class Word(models.Model):
     WORD_STATUS = (("Wait", "Wait for acceptation"),("Accepted", "Accepted by moderator"),("Unaccepted", "Unaccepted by moderator"))
-    user = models.ForeignKey("User", on_delete=models.CASCADE,null=True, blank=True, related_name="words")
+    user = models.ForeignKey("User", on_delete=models.CASCADE,null=True, blank=True, related_name="word")
     word = models.TextField(max_length=255)
     translated_word = models.TextField(max_length=255)
 
