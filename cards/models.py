@@ -7,25 +7,31 @@ from json import dumps
 
 class Ranking(models.Model):
     ranking_date = models.DateTimeField(auto_now=True)
-    ranking_list = models.CharField(max_length=255, blank=True)
+    ranking_name = models.CharField(max_length=50, blank=True)
 
+    @property
+    def set_ranking_list(self):
+        ranking = dumps(self.actualize_rank())
+        return ranking
+    
     def save(self, *args, **kwargs):
-        self.ranking_list = dumps(self.actualize_rank())
+        self.ranking = self.set_ranking_list
         super(Ranking, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.ranking_list
+        return self.ranking_name
 
     def actualize_rank(self):
         user_list = {}
-        user_id = User.objects.all().order_by("-total_score").values_list("id", flat=True)
-        for index, id in enumerate(user_id):
-            user_list[index + 1] = id
+        user = User.objects.all().order_by("-total_score").values_list("username", flat=True)
+        for index, username in enumerate(user):
+            user_list[index + 1] = username
         return user_list
 
 
 class Word(models.Model):
-
+    WORD_STATUS = (("Wait", "Wait for acceptation"),("Accepted", "Accepted by moderator"),("Unaccepted", "Unaccepted by moderator"))
+    user = models.ForeignKey("User", on_delete=models.CASCADE,null=True, blank=True, related_name="word")
     word = models.TextField(max_length=255)
     translated_word = models.TextField(max_length=255)
 
@@ -36,6 +42,8 @@ class Word(models.Model):
         related_name="+",
         blank=True,
     )
+
+    status = models.CharField(max_length=10, choices=WORD_STATUS, default="Wait")
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -49,10 +57,9 @@ class Word(models.Model):
 
 class Category(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="categories")
-
-    category = models.TextField(max_length=255)
-
+    category = models.TextField(max_length=50)
     words = models.ManyToManyField("Word")
+    price = models.IntegerField(default=0)
 
     def __str__(self):
         return self.category

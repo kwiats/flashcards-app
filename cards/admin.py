@@ -74,7 +74,8 @@ class WordAdmin(admin.ModelAdmin):
         "id",
         "word",
         "translated_word",
-        "category_word",
+        "user",
+        "status",
     )
 
 
@@ -83,6 +84,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "category",
+        "user",
     )
     ordering = ("id",)
 
