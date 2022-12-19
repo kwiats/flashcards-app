@@ -25,8 +25,11 @@ def check_score_to_buy(category_id, user_id,):
         return True
     return False
 
-def generator_word():
-    return choice(Word.objects.all())
+def generator_word(amount: int) -> list:
+    lst = []
+    for i in range(amount):
+        lst.append(choice(Word.objects.all()))
+    return lst
 
 
 def generator_4_options(pk):
