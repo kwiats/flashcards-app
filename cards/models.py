@@ -82,3 +82,4 @@ class User(AbstractUser):
     def save(self,*args, **kwargs):
         self.total_score = self.sum_score
         super(User, self).save(*args, **kwargs)
+    
