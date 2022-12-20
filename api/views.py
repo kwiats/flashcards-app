@@ -252,3 +252,7 @@ class ChangePasswordView(APIView):
 
 class ChangeEmailView(APIView):
     pass
+
+
+class ScoreUser(APIView):
+    d
