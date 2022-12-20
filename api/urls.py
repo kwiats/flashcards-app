@@ -52,6 +52,11 @@ urlpatterns = [
         name="change-password",
     ),
     path(
+        "user/score/",
+        views.ScoreUser.as_view(),
+        name="score",
+    ),
+    path(
         "ranking/",
         views.RankingListView.as_view(),
         name="score-ranking",

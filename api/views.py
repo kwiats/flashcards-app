@@ -38,6 +38,7 @@ class WordDetailView(APIView):
         return word
 
     def get(self, request, pk, format=None):
+        print(request.user)
         word = self.get_object(pk)
         serializer = serializers.WordSerializer(word)
         return Response(serializer.data)
@@ -255,4 +256,8 @@ class ChangeEmailView(APIView):
 
 
 class ScoreUser(APIView):
-    d
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = User.objects.get(username=request.user)
+        return Response(data=user.username)

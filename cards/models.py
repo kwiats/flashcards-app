@@ -39,7 +39,11 @@ class Word(models.Model):
         ("Unaccepted", "Unaccepted by moderator"),
     )
     user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, null=True, blank=True, related_name="word"
+        "User",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="word",
     )
     word = models.TextField(max_length=255)
     translated_word = models.TextField(max_length=255)
@@ -52,7 +56,11 @@ class Word(models.Model):
         blank=True,
     )
 
-    status = models.CharField(max_length=10, choices=WORD_STATUS, default="Wait")
+    status = models.CharField(
+        max_length=10,
+        choices=WORD_STATUS,
+        default="Wait",
+    )
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
