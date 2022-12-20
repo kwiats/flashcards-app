@@ -41,7 +41,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["cards.apps", "api.apps"]
+LOCAL_APPS = ["cards.apps.CardsConfig"]
 THIRD_APPS = [
     "rest_framework",
     "rest_framework.authtoken",

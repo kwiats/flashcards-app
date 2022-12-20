@@ -1,10 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status, mixins, generics
-from django.contrib.auth.hashers import check_password
-from django.contrib.auth.hashers import make_password
-import pdb
+from rest_framework import status
 
 
 from cards.models import Word, Category, User, Ranking
@@ -99,16 +96,25 @@ class CategoryDetailView(APIView):
     def put(self, request, pk, format=None):
         category = self.get_object(pk)
         if category:
-            serializer = serializers.CategorySerializer(category, data=request.data)
+            serializer = serializers.CategorySerializer(
+                category,
+                data=request.data,
+            )
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
         return Response(
-            f"Category with id={pk} doesn't exists.", status=status.HTTP_404_NOT_FOUND
+            f"Category with id={pk} doesn't exists.",
+            status=status.HTTP_404_NOT_FOUND,
         )
 
     def post(self, request, pk, format=None):
-        serializer = serializers.CategorySerializer(data=request.data)
+        serializer = serializers.CategorySerializer(
+            data=request.data,
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -117,7 +123,8 @@ class CategoryDetailView(APIView):
         category = self.get_object(pk)
         category.delete()
         return Response(
-            f"Category(id = {pk}) is deleted.", status=status.HTTP_204_NO_CONTENT
+            f"Category(id = {pk}) is deleted.",
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -127,15 +134,26 @@ class UserListView(APIView):
     def get(self, request):
 
         users = User.objects.all()
-        serializer = serializers.UserSerializer(users, many=True)
+        serializer = serializers.UserSerializer(
+            users,
+            many=True,
+        )
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = serializers.UserDetailSerializer(data=request.data)
+        serializer = serializers.UserDetailSerializer(
+            data=request.data,
+        )
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 class UserDetailView(APIView):
@@ -155,7 +173,10 @@ class UserDetailView(APIView):
     def put(self, request, pk):
         user = self.get_object(pk)
         if user:
-            serializer = serializers.UserDetailSerializer(user, data=request.data)
+            serializer = serializers.UserDetailSerializer(
+                user,
+                data=request.data,
+            )
             serializer.is_valid(raise_exception=True)
 
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -176,7 +197,9 @@ class UserDetailView(APIView):
         user = self.get_object(pk)
 
         if user:
-            serializer = serializers.UserSerializer(user, data=request.data, partial=True)
+            serializer = serializers.UserSerializer(
+                user, data=request.data, partial=True
+            )
             serializer.is_valid(raise_exception=True)
             serializer.save()
 
