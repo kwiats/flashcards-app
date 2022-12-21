@@ -18,16 +18,21 @@ def minus_point_for_user(pk):
     user_instance.save()
     return score
 
-def check_score_to_buy(category_id, user_id,):
+
+def check_score_to_buy(
+    category_id,
+    user_id,
+):
     current_score = User.objects.get(pk=user_id).current_score
     category_price = Category.objects.get(pk=category_id).price
     if (current_score - category_price) > 0:
         return True
     return False
 
+
 def generator_word(amount: int) -> list:
     lst = []
-    for i in range(amount):
+    for _ in range(amount):
         lst.append(choice(Word.objects.all()))
     return lst
 

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, User
-from django.utils.translation import gettext_lazy as _
 
 from json import dumps
 
@@ -13,25 +12,35 @@ class Ranking(models.Model):
     def set_ranking_list(self):
         ranking = dumps(self.actualize_rank())
         return ranking
-    
+
     def save(self, *args, **kwargs):
         self.ranking = self.set_ranking_list
         super(Ranking, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.ranking_name
+        return f"{self.ranking_name}"
 
     def actualize_rank(self):
         user_list = {}
-        user = User.objects.all().order_by("-total_score").values_list("username", flat=True)
+        user = (
+            User.objects.all()
+            .order_by("-total_score")
+            .values_list("username", flat=True)
+        )
         for index, username in enumerate(user):
             user_list[index + 1] = username
         return user_list
 
 
 class Word(models.Model):
-    WORD_STATUS = (("Wait", "Wait for acceptation"),("Accepted", "Accepted by moderator"),("Unaccepted", "Unaccepted by moderator"))
-    user = models.ForeignKey("User", on_delete=models.CASCADE,null=True, blank=True, related_name="word")
+    WORD_STATUS = (
+        ("Wait", "Wait for acceptation"),
+        ("Accepted", "Accepted by moderator"),
+        ("Unaccepted", "Unaccepted by moderator"),
+    )
+    user = models.ForeignKey(
+        "User", on_delete=models.CASCADE, null=True, blank=True, related_name="word"
+    )
     word = models.TextField(max_length=255)
     translated_word = models.TextField(max_length=255)
 
@@ -52,17 +61,19 @@ class Word(models.Model):
         ordering = ["-updated", "word"]
 
     def __str__(self):
-        return self.word
+        return f"{self.word}"
 
 
 class Category(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="categories")
+    user = models.ForeignKey(
+        "User", on_delete=models.CASCADE, related_name="categories"
+    )
     category = models.TextField(max_length=50)
     words = models.ManyToManyField("Word")
     price = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.category
+        return f"{self.category}"
 
 
 def user_directory_path(instance, filename):
@@ -74,16 +85,18 @@ class User(AbstractUser):
 
     name = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(null=True, unique=True)
-    profile_picture = models.FileField(upload_to=user_directory_path, null=True, blank=True)
+    profile_picture = models.FileField(
+        upload_to=user_directory_path, null=True, blank=True
+    )
 
     current_score = models.IntegerField(default=0)
     spend_score = models.IntegerField(default=0)
     total_score = models.PositiveIntegerField(db_index=True)
 
     @property
-    def sum_score(self):
+    def sum_score(self) -> int:
         return self.current_score + self.spend_score
 
-    def save(self,*args, **kwargs):
+    def save(self, *args, **kwargs):
         self.total_score = self.sum_score
         super(User, self).save(*args, **kwargs)
