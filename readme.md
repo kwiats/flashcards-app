@@ -2,6 +2,16 @@
 
 The application is a dictionary quiz that displays an English word and four of its translations in Polish. The user must select the correct translation and receive points for it. The application can offer different levels of difficulty and categories of words, such as animal names, everyday objects, sports, etc. The user can also collect points and achieve higher levels, adding challenge and motivation to learn new words. This application may be useful for people learning English or wanting to improve their skills.
 
+## Tech Stack
+
+**Frontend:** HTML, CSS
+**Backend:** Django, Django Rest Framework
+**SQL:** PostgreSQL
+
+## Instalations
+
+Instalations :)
+
 ## API endpoints
 
 | Method   | URL                                     | Description                                      |
@@ -27,12 +37,6 @@ The application is a dictionary quiz that displays an English word and four of i
 | `POST`   | `/ranking/`                             | Create new ranking                               |
 | `POST`   | `/user/<str:username>/changeemail/`     | Change email for user from username(in progress) |
 | `POST`   | `/user/<str:username>/change-password/` | Change password for user from username           |
-
-## Tech Stack
-
-**Frontend:** HTML, CSS
-**Backend:** Django, Django Rest Framework
-**SQL:** PostgreSQL
 
 ### Demo
 

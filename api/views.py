@@ -254,5 +254,10 @@ class ChangeEmailView(APIView):
     pass
 
 
-class ScoreUser(APIView):
-    d
+class ScoreUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        user = User.objects.get(pk=pk)
+        serializer = serializers.ScoreUserSerializer(user)
+        return Response(serializer.data)

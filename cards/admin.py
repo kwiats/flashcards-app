@@ -12,11 +12,12 @@ class UserAdmin(UserAdmin):
     list_display = (
         "email",
         "username",
+        "current_score",
+        "spend_score",
         "total_score",
-        "is_active",
     )
     search_fields = ("username",)
-    ordering = ("username",)
+    ordering = ("-total_score",)
 
     fieldsets = (
         (None, {"fields": ("username", "password")}),
@@ -91,7 +92,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Ranking)
 class RankingAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        "ranking_name",
+        "ranking_date",
+    )
+    ordering = ("ranking_date",)
 
 
 admin.site.unregister(Group)

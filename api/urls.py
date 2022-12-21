@@ -41,11 +41,6 @@ urlpatterns = [
         views.UserDetailView.as_view(),
         name="specific-user",
     ),
-    # path(
-    #     "user/<int:pk>/change-email/",
-    #     ChangeEmailView.as_view(),
-    #     name="change-email",
-    # ),
     path(
         "user/<int:pk>/change-password/",
         views.ChangePasswordView.as_view(),
@@ -56,6 +51,19 @@ urlpatterns = [
         views.RankingListView.as_view(),
         name="score-ranking",
     ),
-    # path("/user/<int:pk>/score"),
-    # path("/user/<int:pk>/score/add-points"),
+    path(
+        "user/<int:pk>/score/total_score",
+        views.ScoreUserView.as_view(),
+        name="total_user_score",
+    ),
+    path(
+        "user/<int:pk>/score/spend_score",
+        views.ScoreUserView.as_view(),
+        name="spend_user_score",
+    ),
+    path(
+        "user/<int:pk>/score/current_score",
+        views.ScoreUserView.as_view(),
+        name="current_user_score",
+    ),
 ]

@@ -21,6 +21,18 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ["password"]
 
 
+class ScoreUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "username",
+            "spend_score",
+            "current_score",
+            "total_score",
+        )
+
+
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -42,8 +54,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
         return instance
 
     def partial_update(self, instance, validated_data):
-
-        # Uaktualnij pola
         instance.update(**validated_data)
 
         return instance
