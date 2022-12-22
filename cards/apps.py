@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.core.signals import request_finished
 
 
 class CardsConfig(AppConfig):
@@ -6,4 +7,6 @@ class CardsConfig(AppConfig):
     name = "cards"
 
     def ready(self) -> None:
-        import cards.signals
+        from . import signals
+
+        request_finished.connect(signals.create_user_default_list_of_words)
