@@ -65,9 +65,8 @@ class Word(models.Model):
 
 
 class Category(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="categories"
-    )
+    users = models.ManyToManyField("User", related_name="categories")
+
     category = models.TextField(max_length=50)
     words = models.ManyToManyField("Word")
     price = models.IntegerField(default=0)

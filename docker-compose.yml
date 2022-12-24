@@ -12,7 +12,7 @@ services:
     container_name: django
     build: 
       context: .
-      dockerfile: .Docker/Dockerfile
+      dockerfile: .docker/Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code/

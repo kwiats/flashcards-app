@@ -9,4 +9,4 @@ class CardsConfig(AppConfig):
     def ready(self) -> None:
         from . import signals
 
-        request_finished.connect(signals.create_user_default_list_of_words)
+        # request_finished.connect(signals.create_user_default_list_of_words)

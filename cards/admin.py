@@ -89,6 +89,9 @@ class CategoryAdmin(admin.ModelAdmin):
     )
     ordering = ("id",)
 
+    def user(self, obj):
+        return ", ".join([user.username for user in obj.users.all()])
+
 
 @admin.register(Ranking)
 class RankingAdmin(admin.ModelAdmin):
