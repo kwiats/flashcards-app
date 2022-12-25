@@ -88,7 +88,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         return value
 
 
-class TotalScoreSerializer(serializers.ModelSerializer):
+class ScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
@@ -99,7 +99,7 @@ class TotalScoreSerializer(serializers.ModelSerializer):
         )
 
 
-class AdderScoreSerializer(serializers.ModelSerializer):
+class ScoreAdderSerializer(serializers.ModelSerializer):
     current_score = serializers.IntegerField(required=False)
     spend_score = serializers.IntegerField(required=False)
 
