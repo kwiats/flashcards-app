@@ -86,3 +86,36 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
     def validate_new_password(self, value):
         validate_password(value)
         return value
+
+
+class TotalScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "current_score",
+            "spend_score",
+            "total_score",
+        )
+
+
+class AdderScoreSerializer(serializers.ModelSerializer):
+    current_score = serializers.IntegerField(required=False)
+    spend_score = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "current_score",
+            "spend_score",
+            "total_score",
+        )
+
+    def update(self, instance, data):
+        if "current_score" in data:
+            instance.current_score += data["current_score"]
+        if "spend_score" in data:
+            instance.spend_score += data["spend_score"]
+        instance.save()
+        return instance

@@ -260,4 +260,6 @@ class ScoreUserView(APIView):
     def get(self, request, pk):
         user = User.objects.get(pk=pk)
         serializer = serializers.ScoreUserSerializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    
