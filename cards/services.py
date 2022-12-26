@@ -61,17 +61,19 @@ def check_translated_word(pk, user_answer):
     return None
 
 
-def buy_category(user_id, category_id) -> bool:
+def buy_category(user_instance, category_id) -> bool:
     category = Category.objects.get(pk=category_id)
-    user = User.objects.get(pk=user_id)
+    user = user_instance
     if user.current_score > category.price:
-        substract_user_score(user_id=user_id, score=category.price)
+        substract_user_score(instance=user_instance, score=category.price)
+        category.users.add(user.username)
         return True
     return False
 
 
-def substract_user_score(user_id, score) -> User:
-    user = User.objects.get(pk=user_id)
+def substract_user_score(instance, score) -> User:
+    user = instance
     user.current_score -= score
     user.spend_score += score
+    user.save()
     return user
