@@ -34,18 +34,36 @@ def check_translated_word(pk, user_answer):
     return result
 
 
-def buy_category(user, category_id) -> bool:
+def buy_category(user: User, category_id: int) -> bool:
+    """Allow a user to buy a category if they have enough current score.
+
+    Parameters:
+    user (User): The user object.
+    category_id (int): The ID of the category to be purchased.
+
+    Returns:
+    bool: True if the purchase was successful, False otherwise.
+    """
     category = get_object_or_404(Category, pk=category_id)
     result = False
     if user.current_score >= category.price:
-        substract_user_score(user=user, score=category.price)
+        update_user_score(user=user, score=category.price)
         category.users.add(user.username)
         category.update()
         result = True
     return result
 
 
-def substract_user_score(user, score) -> User:
+def update_user_score(user: User, score: int) -> User:
+    """Update a user's current score and spend score by substracting a given score.
+
+    Parameters:
+    user (User): The user object.
+    score (int): The score to be substracted from the user's current score.
+
+    Returns:
+    User: The updated user object.
+    """
     user.current_score -= score
     user.spend_score += score
     user.update()
