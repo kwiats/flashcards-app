@@ -6,13 +6,32 @@ from .models import Word, User, Category
 
 
 def generator_word(amount: int) -> list:
+    """
+    Generates a list of 'amount' Word objects chosen randomly from the Word model.
+
+    Parameters:
+        amount (int): The number of Word objects to generate.
+
+    Returns:
+        list: A list of 'amount' Word objects.
+    """
     lst = []
     for _ in range(amount):
         lst.append(choice(Word.objects.all()))
     return lst
 
 
-def generator_4_options(pk):
+def generator_4_options(pk: int) -> list:
+    """
+    Generates a list of 4 Word objects, including the Word object with primary key 'pk'.
+    The other 3 Word objects are chosen randomly from the Word model and are different from the Word object with primary key 'pk'.
+
+    Parameters:
+        pk (int): The primary key of the Word object to include in the generated list.
+
+    Returns:
+        list: A list of 4 Word objects, including the Word object with primary key 'pk'.
+    """
     lst = []
     while len(lst) != 3:
         word = choice(Word.objects.all())
@@ -24,7 +43,17 @@ def generator_4_options(pk):
     return lst
 
 
-def check_translated_word(pk, user_answer):
+def check_translated_word(pk: int, user_answer: str) -> bool:
+    """
+    Checks if the user's answer matches the translated word of the Word object with primary key 'pk'.
+
+    Parameters:
+        pk (int): The primary key of the Word object to check.
+        user_answer (str): The user's answer to check against the translated word.
+
+    Returns:
+        bool: True if the user's answer matches the translated word, False otherwise.
+    """
     result = False
     if user_answer:
         word = get_object_or_404(Word, pk=pk)
