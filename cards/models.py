@@ -5,11 +5,20 @@ from json import dumps
 
 
 class Ranking(models.Model):
+    """A model representing a ranking mode
+
+    Fields:
+        ranking_date (DateTimeField: Date of create ranking list. It's automaticaly added.
+        ranking_name (CharField): The name of ranking. It's can be blank and contains only 50 letters.
+        ranking_list (JSON[Postion, Username]): List of user sorted by total score.
+    """
+
     ranking_date = models.DateTimeField(auto_now=True)
     ranking_name = models.CharField(max_length=50, blank=True)
 
     @property
     def set_ranking_list(self):
+        """Return field ranking_list with dictionary in JSON"""
         ranking = dumps(self.actualize_rank())
         return ranking
 
@@ -18,9 +27,11 @@ class Ranking(models.Model):
         super(Ranking, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.ranking_name}"
+        """Return string representation of model"""
+        return self.ranking_name
 
-    def actualize_rank(self):
+    def actualize_rank(self) -> dict:
+        """Return dictionary of position in ranking and username"""
         user_list = {}
         user = (
             User.objects.all()
@@ -41,7 +52,11 @@ class Word(models.Model):
     user = models.ForeignKey(
         "User", on_delete=models.CASCADE, null=True, blank=True, related_name="word"
     )
-    word = models.TextField(max_length=255)
+    word = models.TextField(
+        max_length=255,
+        blank=True,
+        verbose_name="Word name",
+    )
     translated_word = models.TextField(max_length=255)
 
     category_word = models.ForeignKey(
