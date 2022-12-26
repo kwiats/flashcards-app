@@ -106,13 +106,15 @@ class ScoreAdderSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            # "username",
+            "username",
             "current_score",
             "spend_score",
             # "total_score",
         )
 
     def update(self, instance, data):
+        self.username = instance.name
+        self.total_score = instance.total_score
         if "current_score" in data:
             instance.current_score += data["current_score"]
         if "spend_score" in data:
