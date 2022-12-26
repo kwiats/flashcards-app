@@ -254,7 +254,7 @@ class ChangeEmailView(APIView):
     pass
 
 
-class ScoreUserView(APIView):
+class ScoreView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
@@ -262,4 +262,14 @@ class ScoreUserView(APIView):
         serializer = serializers.ScoreUserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    
+
+class ScoreAdderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, pk):
+        print(request.data)
+        user = User.objects.get(pk=pk)
+        serializer = serializers.ScoreAdderSerializer(user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

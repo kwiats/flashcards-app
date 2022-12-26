@@ -14,7 +14,6 @@ class UserAdmin(UserAdmin):
         "email",
         "username",
         "current_score",
-        "spend_score",
         "total_score",
     )
     search_fields = ("username",)
