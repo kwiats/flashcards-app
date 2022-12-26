@@ -1,33 +1,8 @@
 from random import choice
+from django.shortcuts import get_object_or_404
+
 
 from .models import Word, User, Category
-
-
-def add_points_for_user(pk):
-    user_instance = User.objects.get(pk=pk)
-    user_instance.current_score += 4
-    score = user_instance.current_score
-    user_instance.save()
-    return score
-
-
-def minus_point_for_user(pk):
-    user_instance = User.objects.get(pk=pk)
-    user_instance.current_score -= 1
-    score = user_instance.current_score
-    user_instance.save()
-    return score
-
-
-def check_score_to_buy(
-    category_id,
-    user_id,
-):
-    current_score = User.objects.get(pk=user_id).current_score
-    category_price = Category.objects.get(pk=category_id).price
-    if (current_score - category_price) > 0:
-        return True
-    return False
 
 
 def generator_word(amount: int) -> list:
@@ -50,30 +25,28 @@ def generator_4_options(pk):
 
 
 def check_translated_word(pk, user_answer):
+    result = False
     if user_answer:
-        word = Word.objects.get(pk=pk)
+        word = get_object_or_404(Word, pk=pk)
         translated_word = word.translated_word
-        print(translated_word)
-        print(user_answer)
         if translated_word == user_answer:
-            return add_points_for_user(pk)
-        return minus_point_for_user(pk)
-    return None
+            result = True
+    return result
 
 
-def buy_category(user_instance, category_id) -> bool:
-    category = Category.objects.get(pk=category_id)
-    user = user_instance
-    if user.current_score > category.price:
-        substract_user_score(instance=user_instance, score=category.price)
+def buy_category(user, category_id) -> bool:
+    category = get_object_or_404(Category, pk=category_id)
+    result = False
+    if user.current_score >= category.price:
+        substract_user_score(user=user, score=category.price)
         category.users.add(user.username)
-        return True
-    return False
+        category.update()
+        result = True
+    return result
 
 
-def substract_user_score(instance, score) -> User:
-    user = instance
+def substract_user_score(user, score) -> User:
     user.current_score -= score
     user.spend_score += score
-    user.save()
+    user.update()
     return user
