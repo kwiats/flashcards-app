@@ -65,9 +65,8 @@ class Word(models.Model):
 
 
 class Category(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="categories"
-    )
+    users = models.ManyToManyField("User", related_name="categories")
+
     category = models.TextField(max_length=50)
     words = models.ManyToManyField("Word")
     price = models.IntegerField(default=0)
@@ -78,7 +77,7 @@ class Category(models.Model):
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return "static/images/user_{0}/{1}".format(instance.pk, filename)
+    return f"static/images/user_{instance.pk}/{filename}"
 
 
 class User(AbstractUser):

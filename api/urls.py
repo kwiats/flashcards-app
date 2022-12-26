@@ -52,18 +52,8 @@ urlpatterns = [
         name="score-ranking",
     ),
     path(
-        "user/<int:pk>/score/total_score",
+        "user/<int:pk>/score/",
         views.ScoreUserView.as_view(),
         name="total_user_score",
-    ),
-    path(
-        "user/<int:pk>/score/spend_score",
-        views.ScoreUserView.as_view(),
-        name="spend_user_score",
-    ),
-    path(
-        "user/<int:pk>/score/current_score",
-        views.ScoreUserView.as_view(),
-        name="current_user_score",
     ),
 ]

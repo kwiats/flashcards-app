@@ -4,14 +4,13 @@ from django.dispatch import receiver
 from .services import generator_word
 from .models import Category, User
 
+import re
+
 
 @receiver(post_save, sender=User)
 def create_user_default_list_of_words(sender, instance, **kwargs):
-    lst = []
-    lst = list(set([word for word in generator_word(amount=1) if len(lst) < 1]))
-    category = Category.objects.create(
-        user=instance,
-        category="Default",
-        price=0,
-    )
-    category.words.set(lst)
+    regex = r"\b{}\b".format("default")
+    pattern = re.compile(regex, flags=re.IGNORECASE)
+    for obj in Category.objects.all():
+        if pattern.search(obj.category):
+            return obj.users.add(instance)

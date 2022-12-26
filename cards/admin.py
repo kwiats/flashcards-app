@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 
 
 from .models import Word, Category, User, Ranking
+import re
 
 
 @admin.register(User)
@@ -84,10 +85,28 @@ class WordAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "isDefault",
         "category",
+        "price",
         "user",
+        "amount",
     )
     ordering = ("id",)
+
+    def isDefault(self, obj):
+        # Utwórz wyrażenie regularne dla słowa i dodaj flagę IGNORECASE
+        regex = r"\b{}\b".format("default")
+        pattern = re.compile(regex, flags=re.IGNORECASE)
+        # Sprawdź, czy łańcuch zawiera słowo za pomocą metody search()
+        if pattern.search(obj.category):
+            return True
+        return False
+
+    def user(self, obj):
+        return ", ".join([user.username for user in obj.users.all()])
+
+    def amount(self, obj):
+        return len(obj.users.all())
 
 
 @admin.register(Ranking)
