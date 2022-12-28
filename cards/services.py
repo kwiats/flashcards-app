@@ -1,26 +1,40 @@
 from random import choice
 
-from .models import Word, User
+from .models import Word, User, Category
 
 
 def add_points_for_user(pk):
     user_instance = User.objects.get(pk=pk)
-    user_instance.score += 4
-    score = user_instance.score
+    user_instance.current_score += 4
+    score = user_instance.current_score
     user_instance.save()
     return score
 
 
 def minus_point_for_user(pk):
     user_instance = User.objects.get(pk=pk)
-    user_instance.score -= 1
-    score = user_instance.score
+    user_instance.current_score -= 1
+    score = user_instance.current_score
     user_instance.save()
     return score
 
 
-def generator_word():
-    return choice(Word.objects.all())
+def check_score_to_buy(
+    category_id,
+    user_id,
+):
+    current_score = User.objects.get(pk=user_id).current_score
+    category_price = Category.objects.get(pk=category_id).price
+    if (current_score - category_price) > 0:
+        return True
+    return False
+
+
+def generator_word(amount: int) -> list:
+    lst = []
+    for _ in range(amount):
+        lst.append(choice(Word.objects.all()))
+    return lst
 
 
 def generator_4_options(pk):

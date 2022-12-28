@@ -1,21 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status, mixins, generics
-from django.contrib.auth.hashers import check_password
-from django.contrib.auth.hashers import make_password
-import pdb
+from rest_framework import status
 
 
 from cards.models import Word, Category, User, Ranking
-from .serializer import (
-    WordSerializer,
-    CategorySerializer,
-    UserSerializer,
-    UserDetailSerializer,
-    RankingSerializer,
-    ChangePasswordSerializer,
-)
+
+from . import serializers
 
 
 class WordListView(APIView):
@@ -24,11 +15,11 @@ class WordListView(APIView):
     def get(self, request):
 
         words = Word.objects.all()
-        serializer = WordSerializer(words, many=True)
+        serializer = serializers.WordSerializer(words, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = WordSerializer(data=request.data)
+        serializer = serializers.WordSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -48,7 +39,7 @@ class WordDetailView(APIView):
 
     def get(self, request, pk, format=None):
         word = self.get_object(pk)
-        serializer = WordSerializer(word)
+        serializer = serializers.WordSerializer(word)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
@@ -56,12 +47,12 @@ class WordDetailView(APIView):
         word = self.get_object(pk)
 
         if word:
-            serializer = WordSerializer(word, data=request.data)
+            serializer = serializers.WordSerializer(word, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
 
-        serializer = WordSerializer(data=request.data)
+        serializer = serializers.WordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -77,11 +68,11 @@ class CategoryListView(APIView):
 
     def get(self, request):
         categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
+        serializer = serializers.CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = CategorySerializer(data=request.data)
+        serializer = serializers.CategorySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -99,22 +90,31 @@ class CategoryDetailView(APIView):
 
     def get(self, request, pk, format=None):
         category = self.get_object(pk)
-        serializer = CategorySerializer(category)
+        serializer = serializers.CategorySerializer(category)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         category = self.get_object(pk)
         if category:
-            serializer = CategorySerializer(category, data=request.data)
+            serializer = serializers.CategorySerializer(
+                category,
+                data=request.data,
+            )
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
         return Response(
-            f"Category with id={pk} doesn't exists.", status=status.HTTP_404_NOT_FOUND
+            f"Category with id={pk} doesn't exists.",
+            status=status.HTTP_404_NOT_FOUND,
         )
 
     def post(self, request, pk, format=None):
-        serializer = CategorySerializer(data=request.data)
+        serializer = serializers.CategorySerializer(
+            data=request.data,
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -123,7 +123,8 @@ class CategoryDetailView(APIView):
         category = self.get_object(pk)
         category.delete()
         return Response(
-            f"Category(id = {pk}) is deleted.", status=status.HTTP_204_NO_CONTENT
+            f"Category(id = {pk}) is deleted.",
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -133,15 +134,26 @@ class UserListView(APIView):
     def get(self, request):
 
         users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
+        serializer = serializers.UserSerializer(
+            users,
+            many=True,
+        )
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = UserDetailSerializer(data=request.data)
+        serializer = serializers.UserDetailSerializer(
+            data=request.data,
+        )
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 class UserDetailView(APIView):
@@ -154,14 +166,17 @@ class UserDetailView(APIView):
 
     def get(self, request, pk):
         user = self.get_object(pk)
-        serializer = UserDetailSerializer(user)
+        serializer = serializers.UserDetailSerializer(user)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
         user = self.get_object(pk)
         if user:
-            serializer = UserDetailSerializer(user, data=request.data)
+            serializer = serializers.UserDetailSerializer(
+                user,
+                data=request.data,
+            )
             serializer.is_valid(raise_exception=True)
 
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -182,7 +197,9 @@ class UserDetailView(APIView):
         user = self.get_object(pk)
 
         if user:
-            serializer = UserSerializer(user, data=request.data, partial=True)
+            serializer = serializers.UserSerializer(
+                user, data=request.data, partial=True
+            )
             serializer.is_valid(raise_exception=True)
             serializer.save()
 
@@ -198,7 +215,7 @@ class UserDetailView(APIView):
 class RankingListView(APIView):
     def get(self, request, format=None):
         ranking = Ranking.objects.latest("ranking_date")
-        serializer = RankingSerializer(ranking)
+        serializer = serializers.RankingSerializer(ranking)
         return Response(serializer.data)
 
 
@@ -212,7 +229,7 @@ class ChangePasswordView(APIView):
 
     def put(self, request, pk):
         user = self.get_object(pk)
-        serializer = ChangePasswordSerializer(data=request.data)
+        serializer = serializers.ChangePasswordSerializer(data=request.data)
         print(request.data)
         if serializer.is_valid():
             old_password = serializer.data.get("old_password")
@@ -235,3 +252,12 @@ class ChangePasswordView(APIView):
 
 class ChangeEmailView(APIView):
     pass
+
+
+class ScoreUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        user = User.objects.get(pk=pk)
+        serializer = serializers.ScoreUserSerializer(user)
+        return Response(serializer.data)

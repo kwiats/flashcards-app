@@ -1,8 +1,6 @@
-import pdb
 from cards.models import Word, Category, User, Ranking
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth.hashers import make_password
 
 
 class WordSerializer(serializers.ModelSerializer):
@@ -21,6 +19,18 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ["password"]
+
+
+class ScoreUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "username",
+            "spend_score",
+            "current_score",
+            "total_score",
+        )
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -44,9 +54,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
         return instance
 
     def partial_update(self, instance, validated_data):
-
-        pdb.set_trace(**validated_data)
-        # Uaktualnij pola
         instance.update(**validated_data)
 
         return instance

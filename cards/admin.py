@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 
 
 from .models import Word, Category, User, Ranking
+import re
 
 
 @admin.register(User)
@@ -12,11 +13,12 @@ class UserAdmin(UserAdmin):
     list_display = (
         "email",
         "username",
-        "score",
-        "is_active",
+        "current_score",
+        "spend_score",
+        "total_score",
     )
     search_fields = ("username",)
-    ordering = ("username",)
+    ordering = ("-total_score",)
 
     fieldsets = (
         (None, {"fields": ("username", "password")}),
@@ -28,7 +30,9 @@ class UserAdmin(UserAdmin):
                     "last_name",
                     "email",
                     "profile_picture",
-                    "score",
+                    "total_score",
+                    "current_score",
+                    "spend_score",
                 )
             },
         ),
@@ -72,7 +76,8 @@ class WordAdmin(admin.ModelAdmin):
         "id",
         "word",
         "translated_word",
-        "category_word",
+        "user",
+        "status",
     )
 
 
@@ -80,14 +85,37 @@ class WordAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "isDefault",
         "category",
+        "price",
+        "user",
+        "amount",
     )
     ordering = ("id",)
+
+    def isDefault(self, obj):
+        # Utwórz wyrażenie regularne dla słowa i dodaj flagę IGNORECASE
+        regex = r"\b{}\b".format("default")
+        pattern = re.compile(regex, flags=re.IGNORECASE)
+        # Sprawdź, czy łańcuch zawiera słowo za pomocą metody search()
+        if pattern.search(obj.category):
+            return True
+        return False
+
+    def user(self, obj):
+        return ", ".join([user.username for user in obj.users.all()])
+
+    def amount(self, obj):
+        return len(obj.users.all())
 
 
 @admin.register(Ranking)
 class RankingAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        "ranking_name",
+        "ranking_date",
+    )
+    ordering = ("ranking_date",)
 
 
 admin.site.unregister(Group)
