@@ -97,6 +97,9 @@ class Translation(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.translation
+
 
 class Category(models.Model):
     users = models.ManyToManyField("User", related_name="categories")
