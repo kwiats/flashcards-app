@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractUser, User
 
 from json import dumps
@@ -33,16 +34,28 @@ class Ranking(models.Model):
 
 
 class Word(models.Model):
-    WORD_STATUS = (
-        ("Wait", "Wait for acceptation"),
-        ("Accepted", "Accepted by moderator"),
-        ("Unaccepted", "Unaccepted by moderator"),
+    PENDING = "PENDING"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+    STATUS_CHOICES = (
+        (PENDING, "Pending"),
+        (APPROVED, "Approved"),
+        (REJECTED, "Rejected"),
     )
+
     user = models.ForeignKey(
         "User", on_delete=models.CASCADE, null=True, blank=True, related_name="word"
     )
-    word = models.TextField(max_length=255)
-    translated_word = models.TextField(max_length=255)
+    word = models.TextField(
+        max_length=255,
+        validators=[
+            RegexValidator(
+                regex="^[a-zA-Z\s']*$",
+                message="Word should be alphabetic",
+                code="invalid_word",
+            )
+        ],
+    )
 
     category_word = models.ForeignKey(
         "Category",
@@ -52,7 +65,7 @@ class Word(models.Model):
         blank=True,
     )
 
-    status = models.CharField(max_length=10, choices=WORD_STATUS, default="Wait")
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=PENDING)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -62,6 +75,30 @@ class Word(models.Model):
 
     def __str__(self):
         return f"{self.word}"
+
+
+class Translation(models.Model):
+    word = models.ForeignKey(
+        "Word", on_delete=models.CASCADE, related_name="translations"
+    )
+    translation = models.CharField(
+        max_length=255,
+        blank=True,
+        validators=[
+            RegexValidator(
+                regex="^[a-zA-Z\s]*$",
+                message="Translation should be alphabetic",
+                code="invalid_translation",
+            )
+        ],
+    )
+    pronunciation = models.CharField(max_length=100, blank=True)
+
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.translation
 
 
 class Category(models.Model):
