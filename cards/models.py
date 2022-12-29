@@ -50,7 +50,7 @@ class Word(models.Model):
         max_length=255,
         validators=[
             RegexValidator(
-                regex="^[a-zA-Z]*$",
+                regex="^[a-zA-Z\s']*$",
                 message="Word should be alphabetic",
                 code="invalid_word",
             )
@@ -86,7 +86,7 @@ class Translation(models.Model):
         blank=True,
         validators=[
             RegexValidator(
-                regex="^[a-zA-Z]*$",
+                regex="^[a-zA-Z\s]*$",
                 message="Translation should be alphabetic",
                 code="invalid_translation",
             )
