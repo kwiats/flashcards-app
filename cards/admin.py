@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.utils.translation import gettext as _
 
 
-from .models import Word, Category, User, Ranking
+from .models import Word, Translation, Category, User, Ranking
 import re
 
 
@@ -75,10 +75,16 @@ class WordAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "word",
-        "translated_word",
         "user",
         "status",
     )
+
+
+@admin.register(Translation)
+class TranslationAdmin(admin.ModelAdmin):
+    ordering = ("-updated",)
+
+    list_display = ("id", "word", "translation", "pronunciation")
 
 
 @admin.register(Category)

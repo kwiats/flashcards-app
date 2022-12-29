@@ -92,7 +92,7 @@ class Translation(models.Model):
             )
         ],
     )
-    pronunciation = models.CharField(max_length=100, blank=True, required=False)
+    pronunciation = models.CharField(max_length=100, blank=True)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
