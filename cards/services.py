@@ -3,15 +3,15 @@ from random import choice
 from .models import Word, User, Category
 
 
-def add_points_for_user(pk):
+def add_points_for_user(pk: int, score: int):
     user_instance = User.objects.get(pk=pk)
-    user_instance.current_score += 4
+    user_instance.current_score += score
     score = user_instance.current_score
     user_instance.save()
     return score
 
 
-def minus_point_for_user(pk):
+def minus_point_for_user(pk: int, score: int):
     user_instance = User.objects.get(pk=pk)
     user_instance.current_score -= 1
     score = user_instance.current_score
@@ -19,10 +19,7 @@ def minus_point_for_user(pk):
     return score
 
 
-def check_score_to_buy(
-    category_id,
-    user_id,
-):
+def check_score_to_buy(category_id: int, user_id: int):
     current_score = User.objects.get(pk=user_id).current_score
     category_price = Category.objects.get(pk=category_id).price
     if (current_score - category_price) > 0:

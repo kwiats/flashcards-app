@@ -10,7 +10,57 @@ The application is a dictionary quiz that displays an English word and four of i
 
 ## Instalations
 
-Instalations :)
+### Running the project
+
+Clone the repository (make sure you have git installed):
+
+```
+git clone https://github.com/kwiats/flashcards-app
+cd flashcards-app
+```
+
+Install the dependencies (Poetry will create a virtual environment automatically for you)
+
+```
+poetry install --with dev
+```
+
+You can start application in two ways.
+
+1.  Build images and start containers. No worries, first run will take a lot of time. Docker has to download a lot of data, but it will store it in a cache for later retrieval.
+
+```
+docker-compose up --build
+```
+
+If everything went smoothly without errors, the application should now be running.
+You can access it at
+
+```
+http://127.0.0.1:8000/
+```
+
+If you see the 404 page, then everything is correct.
+
+Consider creating a superuser to access the Django Admin panel
+
+```
+docker-compose run django python manage.py createsuperuser
+```
+
+or
+
+2.  Use Poetry to start server with django
+
+```
+poetry run python manage.py runserver
+```
+
+and for creatin a superuser to acces the Django Admin panel
+
+```
+poetry run python manage.py createsuperuser
+```
 
 ## API endpoints
 
@@ -39,19 +89,3 @@ Instalations :)
 | `POST`   | `/user/<int:pk>/change-password/` | Change password for user from username           |
 | `GET`    | `/user/<int:pk>/score/`           | Show up user current and spend score             |
 | `PUT`    | `/user/<int:pk>/add_score/`       | Update user current and spend score              |
-
-### Demo
-
-Admin:
-
-**Login -** admin
-**Password -** admin
-
-User:
-
-**Login -** test_user
-**Password -** test_user
-
-### Roadmap - notion
-
-[Link here!](https://cat-ghoul-4e1.notion.site/cd52bb7c4c4940cd986431ec0ef96d3c?v=666e1a7f9f91412894a9b2d9b247ffd8)
