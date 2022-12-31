@@ -68,26 +68,31 @@ class TranslationListView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        translation = get_list_or_404(Translation)
-        serializer = serializers.TranslationSerilizer(translation, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        translations = get_list_or_404(Translation)
+        serializer = serializers.TranslationSerializer(translations, many=True)
+        return Response(serializer.data)
 
     def post(self, request):
-        serializer = serializers.TranslationSerilizer(data=request.data)
+        serializer = serializers.TranslationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class TranslationDetailView(APIView):
-    ...
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk):
+        translation = get_object_or_404(Translation, pk=pk)
+        serializer = serializers.TranslationSerilizer(translation)
+        return Response(serializer.data)
 
 
 class CategoryListView(APIView):
     # permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        categories = Category.objects.all()
+        categories = get_list_or_404(Category)
         serializer = serializers.CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
@@ -99,7 +104,7 @@ class CategoryListView(APIView):
 
 
 class CategoryDetailView(APIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_object(self, pk):
         try:
