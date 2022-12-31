@@ -69,11 +69,11 @@ class TranslationListView(APIView):
 
     def get(self, request):
         translations = get_list_or_404(Translation)
-        serializer = serializers.TranslationSerializer(translations, many=True)
+        serializer = serializers.TranslationSerilizer(translations, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = serializers.TranslationSerializer(data=request.data)
+        serializer = serializers.TranslationSerilizer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -83,9 +83,24 @@ class TranslationDetailView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk):
-        translation = get_object_or_404(Translation, pk=pk)
-        serializer = serializers.TranslationSerilizer(translation)
+        obj = get_object_or_404(Translation, pk=pk)
+        serializer = serializers.TranslationSerilizer(obj)
         return Response(serializer.data)
+
+    def put(self, request, pk):
+        obj = get_object_or_404(Translation, pk=pk)
+        serializer = serializers.TranslationSerilizer(
+            obj,
+            data=request.data,
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        obj = get_object_or_404(Translation, pk=pk)
+        obj.delete()
+        return Response("Translation deleted.", status=status.HTTP_204_NO_CONTENT)
 
 
 class CategoryListView(APIView):
