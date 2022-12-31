@@ -22,11 +22,6 @@ urlpatterns = [
         name="single-word",
     ),
     path(
-        "word/<int:pk>/translations",
-        views.WordTranslationsView.as_view(),
-        name="word-translations",
-    ),
-    path(
         "category/",
         views.CategoryListView.as_view(),
         name="all-categories",
@@ -59,16 +54,6 @@ urlpatterns = [
     path(
         "user/<int:pk>/score/",
         views.ScoreUserView.as_view(),
-        name="total-user-score",
-    ),
-    path(
-        "translation/",
-        views.TranslationListView.as_view(),
-        name="all-translations",
-    ),
-    path(
-        "translation/<int:pk>/",
-        views.TranslationDetailView.as_view(),
-        name="specific-translation",
+        name="total_user_score",
     ),
 ]
