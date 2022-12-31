@@ -54,6 +54,16 @@ urlpatterns = [
     path(
         "user/<int:pk>/score/",
         views.ScoreUserView.as_view(),
-        name="total_user_score",
+        name="total-user-score",
+    ),
+    path(
+        "translation/",
+        views.TranslationListView.as_view(),
+        name="all-translations",
+    ),
+    path(
+        "translation/<int:pk>/",
+        views.TranslationDetailView.as_view(),
+        name="specific-translation",
     ),
 ]
