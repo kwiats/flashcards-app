@@ -6,7 +6,6 @@ __pycache__
 db.sqlite3
 media
 images
-cards/migrations/*.py
 
 # mac system files #
 .DS_STORE
