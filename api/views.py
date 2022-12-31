@@ -2,10 +2,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from django.shortcuts import get_object_or_404, get_list_or_404
 
 
-from cards.models import Word, Category, User, Ranking, Translation
+from cards.models import Word, Category, User, Ranking
 
 from . import serializers
 
@@ -25,14 +24,6 @@ class WordListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class WordTranslationsView(APIView):
-    def get(self, request, pk):
-        translations = get_list_or_404(Translation, word=pk)
-        word = get_object_or_404(Word, pk=pk)
-        serializer = serializers.TranslationSerilizer(translations, many=True)
-        return Response({word.word: serializer.data})
 
 
 class WordDetailView(APIView):
@@ -72,50 +63,11 @@ class WordDetailView(APIView):
         return Response("Word deleted.", status=status.HTTP_204_NO_CONTENT)
 
 
-class TranslationListView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        translations = get_list_or_404(Translation)
-        serializer = serializers.TranslationSerilizer(translations, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = serializers.TranslationSerilizer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class TranslationDetailView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, pk):
-        obj = get_object_or_404(Translation, pk=pk)
-        serializer = serializers.TranslationSerilizer(obj)
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        obj = get_object_or_404(Translation, pk=pk)
-        serializer = serializers.TranslationSerilizer(
-            obj,
-            data=request.data,
-        )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def delete(self, request, pk):
-        obj = get_object_or_404(Translation, pk=pk)
-        obj.delete()
-        return Response("Translation deleted.", status=status.HTTP_204_NO_CONTENT)
-
-
 class CategoryListView(APIView):
     # permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        categories = get_list_or_404(Category)
+        categories = Category.objects.all()
         serializer = serializers.CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
@@ -127,7 +79,7 @@ class CategoryListView(APIView):
 
 
 class CategoryDetailView(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def get_object(self, pk):
         try:
