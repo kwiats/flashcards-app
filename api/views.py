@@ -2,9 +2,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 
-from cards.models import Word, Category, User, Ranking
+from cards.models import Word, Category, User, Ranking, Translation
 
 from . import serializers
 
@@ -61,6 +62,25 @@ class WordDetailView(APIView):
         word = self.get_object(pk)
         word.delete()
         return Response("Word deleted.", status=status.HTTP_204_NO_CONTENT)
+
+
+class TranslationListView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        translation = get_list_or_404(Translation)
+        serializer = serializers.TranslationSerilizer(translation, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = serializers.TranslationSerilizer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class TranslationDetailView(APIView):
+    ...
 
 
 class CategoryListView(APIView):
