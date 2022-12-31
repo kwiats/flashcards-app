@@ -64,28 +64,33 @@ poetry run python manage.py createsuperuser
 
 ## API endpoints
 
-| Method   | URL                               | Description                                      |
-| -------- | --------------------------------- | ------------------------------------------------ |
-| `POST`   | `/auth-token/`                    | Retrive user auth token                          |
-| `GET`    | `/word/`                          | Show up all words.                               |
-| `POST`   | `/word/`                          | Create new word                                  |
-| `GET`    | `/word/<int:pk>/`                 | Retrive word with specific id                    |
-| `PUT`    | `/word/<int:pk>/`                 | Update word with specific id                     |
-| `DELETE` | `/word/<int:pk>/`                 | Delete word with specific id                     |
-| `GET`    | `/category/`                      | Show up all categorys.                           |
-| `POST`   | `/category/`                      | Create new category                              |
-| `GET`    | `/category/<int:pk>/`             | Retrive category with specific id                |
-| `PUT`    | `/category/<int:pk>/`             | Update category with specific id                 |
-| `DELETE` | `/category/<int:pk>/`             | Delete category with specific id                 |
-| `GET`    | `/user/`                          | Show up all users.                               |
-| `POST`   | `/user/`                          | Create new user                                  |
-| `GET`    | `/user/<int:pk>/`                 | Retrive user with specific id                    |
-| `PUT`    | `/user/<int:pk>/`                 | Update user with specific id                     |
-| `PATCH`  | `/user/<int:pk>/`                 | Updated single elements in user                  |
-| `DELETE` | `/user/<int:pk>/`                 | Delete user with specific id                     |
-| `GET`    | `/ranking/`                       | Retrive lastest ranking                          |
-| `POST`   | `/ranking/`                       | Create new ranking                               |
-| `POST`   | `/user/<int:pk>/changeemail/`     | Change email for user from username(in progress) |
-| `POST`   | `/user/<int:pk>/change-password/` | Change password for user from username           |
-| `GET`    | `/user/<int:pk>/score/`           | Show up user current and spend score             |
-| `PUT`    | `/user/<int:pk>/add_score/`       | Update user current and spend score              |
+| Method   | URL                               | Description                                   |
+| -------- | --------------------------------- | --------------------------------------------- |
+| `POST`   | `/auth-token/`                    | Retrive user auth token                       |
+| `GET`    | `/word/`                          | Show up all words.                            |
+| `POST`   | `/word/`                          | Create new word                               |
+| `GET`    | `/word/<int:pk>/`                 | Retrive word with specific id                 |
+| `GET`    | `/word/<int:pk>/translations`     | Retrive word with translation for specific id |
+| `PUT`    | `/word/<int:pk>/`                 | Update word with specific id                  |
+| `DELETE` | `/word/<int:pk>/`                 | Delete word with specific id                  |
+| `GET`    | `/translation/`                   | Show up all translations.                     |
+| `POST`   | `/translation/`                   | Create new translation                        |
+| `GET`    | `/translation/<int:pk>/`          | Retrive translation with specific id          |
+| `PUT`    | `/translation/<int:pk>/`          | Update translation with specific id           |
+| `DELETE` | `/translation/<int:pk>/`          | Delete translation with specific id           |
+| `GET`    | `/category/`                      | Show up all categorys.                        |
+| `POST`   | `/category/`                      | Create new category                           |
+| `GET`    | `/category/<int:pk>/`             | Retrive category with specific id             |
+| `PUT`    | `/category/<int:pk>/`             | Update category with specific id              |
+| `DELETE` | `/category/<int:pk>/`             | Delete category with specific id              |
+| `GET`    | `/user/`                          | Show up all users.                            |
+| `POST`   | `/user/`                          | Create new user                               |
+| `GET`    | `/user/<int:pk>/`                 | Retrive user with specific id                 |
+| `PUT`    | `/user/<int:pk>/`                 | Update user with specific id                  |
+| `PATCH`  | `/user/<int:pk>/`                 | Updated single elements in user               |
+| `DELETE` | `/user/<int:pk>/`                 | Delete user with specific id                  |
+| `POST`   | `/user/<int:pk>/change-password/` | Change password for user from username        |
+| `GET`    | `/user/<int:pk>/score/`           | Show up user current and spend score          |
+| `PUT`    | `/user/<int:pk>/add_score/`       | Update user current and spend score           |
+| `GET`    | `/ranking/`                       | Retrive lastest ranking                       |
+| `POST`   | `/ranking/`                       | Create new ranking                            |
