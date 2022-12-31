@@ -298,10 +298,6 @@ class ChangePasswordView(APIView):
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
-class ChangeEmailView(APIView):
-    pass
-
-
 class ScoreUserView(APIView):
     permission_classes = [IsAuthenticated]
 
