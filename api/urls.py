@@ -22,6 +22,11 @@ urlpatterns = [
         name="single-word",
     ),
     path(
+        "word/<int:pk>/translations",
+        views.WordTranslationsView.as_view(),
+        name="word-translations",
+    ),
+    path(
         "category/",
         views.CategoryListView.as_view(),
         name="all-categories",

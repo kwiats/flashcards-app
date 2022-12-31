@@ -27,6 +27,14 @@ class WordListView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class WordTranslationsView(APIView):
+    def get(self, request, pk):
+        translations = get_list_or_404(Translation, word=pk)
+        word = get_object_or_404(Word, pk=pk)
+        serializer = serializers.TranslationSerilizer(translations, many=True)
+        return Response({word.word: serializer.data})
+
+
 class WordDetailView(APIView):
 
     permission_classes = (IsAuthenticated,)
