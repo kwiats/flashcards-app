@@ -1,4 +1,4 @@
-from cards.models import Word, Category, User, Ranking
+from cards.models import Word, Category, User, Ranking, Translation
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 
@@ -12,6 +12,12 @@ class WordSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
+        fields = "__all__"
+
+
+class TranslationSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Translation
         fields = "__all__"
 
 
