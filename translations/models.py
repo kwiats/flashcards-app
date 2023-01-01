@@ -5,6 +5,23 @@ from users.models import Profile
 
 
 class Word(models.Model):
+    """Model representing a word
+
+    Fields:
+        user (models.ForeignKey):
+            Foreign key to the user who created the word.
+        word (models.TextField):
+            The word itself.
+        category_word (models.ForeignKey):
+            Foreign key to the category the word belongs to.
+        status (models.CharField):
+            The status of the word (pending, approved, rejected).
+        updated (models.DateTimeField):
+            The last time the word was updated.
+        created (models.DateTimeField):
+            The time the word was created.
+    """
+
     PENDING = "PENDING"
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"
@@ -52,11 +69,27 @@ class Word(models.Model):
     class Meta:
         ordering = ["-updated", "word"]
 
-    def __str__(self):
-        return f"{self.word}"
+    def __str__(self) -> str:
+        """Return string representation"""
+        return self.word
 
 
 class Translation(models.Model):
+    """Model representing a translation of a word.
+
+    Fields::
+        word (models.ForeignKey):
+            Foreign key to the word being translated.
+        translation (models.CharField):
+            The translated version of the word.
+        pronunciation (models.CharField):
+            The pronunciation of the translated word.
+        updated (models.DateTimeField):
+            The last time the translation was updated.
+        created (models.DateTimeField):
+            The time the translation was created.
+    """
+
     word = models.ForeignKey(
         "Word", on_delete=models.CASCADE, related_name="translations"
     )
@@ -77,10 +110,28 @@ class Translation(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
+        """Return string representation"""
         return self.translation
 
 
 class Category(models.Model):
+    """Model representing a category of words.
+
+    Fields:
+        users (models.ManyToManyField):
+            Many-to-many field to the users who have access to this category.
+        category (models.TextField):
+            The name of the category.
+        words (models.ManyToManyField):
+            Many-to-many field to the words in this category.
+        price (models.IntegerField):
+            The price of this category.
+        isDefault (models.BooleanField):
+            A flag indicating whether this is a default category.
+        isAllow (models.BooleanField):
+            A flag indicating whether this category is allowed.
+    """
+
     users = models.ManyToManyField(Profile, related_name="categories")
 
     category = models.TextField(max_length=50)
@@ -89,5 +140,6 @@ class Category(models.Model):
     isDefault = models.BooleanField(default=False)
     isAllow = models.BooleanField(default=True)
 
-    def __str__(self):
-        return f"{self.category}"
+    def __str__(self) -> str:
+        """Return string representation"""
+        return self.category
