@@ -113,15 +113,21 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": env["POSTGRES_NAME"],
+#         "USER": env["POSTGRES_USERNAME"],
+#         "PASSWORD": env["POSTGRES_PASS"],
+#         "HOST": env["POSTGRES_HOST"],
+#         "PORT": "",
+#     }
+# }
+
 DATABASES = {
-    # Jesli docker nalezy skorzystac z innych env dla username, pass oraz host
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env["POSTGRES_NAME"],
-        "USER": env["POSTGRES_USERNAME"],
-        "PASSWORD": env["POSTGRES_PASS"],
-        "HOST": env["POSTGRES_HOST"],
-        "PORT": "",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
