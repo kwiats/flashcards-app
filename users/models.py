@@ -5,12 +5,32 @@ from json import dumps
 
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    """file will be uploaded to MEDIA_ROOT/user_<id>/<filename>"""
     return f"static/images/user_{instance.pk}/{filename}"
 
 
 class Profile(AbstractUser):
-    ...
+    """Model representing a user profile.
+
+    Inherits from Django's AbstractUser model.
+
+    Fields:
+        name (models.CharField):
+            The name of the user.
+        email (models.EmailField):
+            The email address of the user.
+        profile_picture (models.FileField):
+            The profile picture of the user.
+        current_score (models.IntegerField):
+            The user's current score.
+        spend_score (models.IntegerField):
+            The user's spend score.
+        total_score (models.PositiveIntegerField):
+            The user's total score(sum of current and spend score).
+    Methods:
+        sum_score:
+            Return a sum of current score and spend score.
+    """
 
     name = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(null=True, unique=True)
@@ -33,6 +53,21 @@ class Profile(AbstractUser):
 
 
 class Ranking(models.Model):
+    """Model representing a ranking list of users.
+
+    Fields:
+        ranking_date (models.DateTimeField):
+            The date and time of the ranking.
+        ranking_name (models.CharField):
+            The name of the ranking.
+
+    Methods:
+        actualize_rank:
+            Return a dictionary of users and their rankings.
+        set_ranking_list:
+            Return a JSON representation of the ranking list.
+    """
+
     ranking_date = models.DateTimeField(auto_now=True)
     ranking_name = models.CharField(max_length=50, blank=True)
 
