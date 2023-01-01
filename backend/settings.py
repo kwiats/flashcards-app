@@ -68,7 +68,9 @@ SWAGGER_SETTINGS = {
     "VERSION": "v0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
     "SCHEMA_PATH_PREFIX": "api/",
-    "SECURITY": {"Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}},
+    "SECURITY": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"},
+    },
 }
 
 
@@ -124,16 +126,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation."
+        / "UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation." 
+        / "MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation." 
+        / "CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation." 
+        / "NumericPasswordValidator",
     },
 ]
 
