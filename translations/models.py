@@ -86,6 +86,8 @@ class Category(models.Model):
     category = models.TextField(max_length=50)
     words = models.ManyToManyField("Word")
     price = models.IntegerField(default=0)
+    isDefault = models.BooleanField(default=False)
+    isAllow = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.category}"
