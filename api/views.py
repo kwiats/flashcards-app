@@ -5,7 +5,8 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 
-from cards.models import Word, Category, User, Ranking, Translation
+from translations.models import Word, Category, Translation
+from users.models import Ranking, Profile as User
 
 from . import serializers
 
@@ -108,7 +109,10 @@ class TranslationDetailView(APIView):
     def delete(self, request, pk):
         obj = get_object_or_404(Translation, pk=pk)
         obj.delete()
-        return Response("Translation deleted.", status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            "Translation deleted.",
+            status=status.HTTP_204_NO_CONTEN,
+        )
 
 
 class CategoryListView(APIView):
@@ -233,12 +237,14 @@ class UserDetailView(APIView):
     def patch(self, request, pk):
         if "password" in request.data:
             return Response(
-                f"You cannot update your passowrd. Use endpoint url /api/{pk}/change-passowrd/ ",
+                "You cannot update your passowrd."
+                + f" Use endpoint url /api/{pk}/change-passowrd/ ",
                 status=status.HTTP_204_NO_CONTENT,
             )
         if "email" in request.data:
             return Response(
-                f"You cannot update your email. Use endpoint url /api/{pk}/change-email/ ",
+                "You cannot update your email."
+                + f"Use endpoint url /api/{pk}/change-email/ ",
                 status=status.HTTP_204_NO_CONTENT,
             )
 
