@@ -1,4 +1,4 @@
-#!/Users/pawelkwiatkowski/Desktop/dev/flashcards-app/.venv/bin/python
+#!/Users/pawelkwiatkowski/dev/.venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
