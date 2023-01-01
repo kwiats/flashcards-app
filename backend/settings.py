@@ -46,7 +46,12 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["backend"]
+LOCAL_APPS = [
+    "backend",
+    "translations.apps.TranslationsConfig",
+    "users.apps.UsersConfig",
+]
+
 THIRD_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
