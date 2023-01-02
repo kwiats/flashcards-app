@@ -16,4 +16,4 @@ class WordModelTests(TestCase):
 
     def test_word_status_field(self):
         word = WordFactory()
-        self.assertIn(word.status, ["PENDING", "APPROVED", "REJECTED"])
+        self.assertIn(word.status, ("PENDING", "APPROVED", "REJECTED"))
