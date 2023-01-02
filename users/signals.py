@@ -1,20 +1,20 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import User
-from ..translations.models import Category
+from .models import Profile
+from translations.models import Category
 
 
-@receiver(post_save, sender=User)
-def create_user_default_list_of_words(sender, instance, **kwargs):
-    for obj in Category.objects.all():
-        if obj.isDefault:
-            return obj.users.add(instance)
+@receiver(post_save, sender=Profile)
+def create_user_default_list_of_words(sender, instance, created, **kwargs):
+    if created:
+        default_category = Category.objects.filter(isDefault=True).first()
+        if default_category:
+            default_category.users.set([instance])
         else:
-            obj = Category(
-                users=instance,
-                cateogry="default",
-                words=1,
+            default_category = Category.objects.create(
+                category="default",
                 isAllow=False,
             )
-            return obj
+            default_category.users.set([instance])
+    return default_category
