@@ -3,7 +3,7 @@ from translations.models import Word, Translation, Category
 
 from users.tests.factories import ProfileFactory
 
-faker = Faker()
+faker = Faker(provider=0)
 
 
 class WordFactory(Factory):
