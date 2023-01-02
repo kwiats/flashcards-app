@@ -1,6 +1,6 @@
 from factory import Factory, Faker, SubFactory
+from translations.models import Word, Translation, Category
 
-from models import Word, Translation, Category
 from users.tests.factories import ProfileFactory
 
 faker = Faker()

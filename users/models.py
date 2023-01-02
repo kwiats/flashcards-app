@@ -1,7 +1,7 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser, User
-
 from json import dumps
+
+from django.contrib.auth.models import AbstractUser, User
+from django.db import models
 
 
 def user_directory_path(instance, filename):

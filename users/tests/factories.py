@@ -1,6 +1,6 @@
 from factory import Factory, Faker
 
-from models import Profile
+from users.models import Profile
 
 
 class ProfileFactory(Factory):
