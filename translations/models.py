@@ -1,5 +1,6 @@
 from django.db import models
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MinValueValidator
+
 
 from users.models import Profile
 
@@ -42,7 +43,7 @@ class Word(models.Model):
         max_length=255,
         validators=[
             RegexValidator(
-                regex="^[a-zA-Z\s']*$",
+                regex="^[a-zA-Z\s']*$",  # noqa
                 message="Word should be alphabetic",
                 code="invalid_word",
             )
@@ -98,7 +99,7 @@ class Translation(models.Model):
         blank=True,
         validators=[
             RegexValidator(
-                regex="^[a-zA-Z\s]*$",
+                regex="^[a-zA-Z.\s]*$",  # noqa
                 message="Translation should be alphabetic",
                 code="invalid_translation",
             )
@@ -134,9 +135,26 @@ class Category(models.Model):
 
     users = models.ManyToManyField(Profile, related_name="categories")
 
-    category = models.TextField(max_length=50)
+    category = models.TextField(
+        max_length=50,
+        validators=[
+            RegexValidator(
+                regex="^[0-9a-zA-Z\s']*$",  # noqa
+                message="Word should be alphanumeric",
+                code="invalid_title_category",
+            )
+        ],
+    )
     words = models.ManyToManyField("Word")
-    price = models.IntegerField(default=0)
+    price = models.IntegerField(
+        default=0,
+        validators=[
+            MinValueValidator(
+                limit_value=0,
+                message="Price cannot be less than 0",
+            )
+        ],
+    )
     isDefault = models.BooleanField(default=False)
     isAllow = models.BooleanField(default=True)
 
