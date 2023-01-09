@@ -127,7 +127,13 @@ class Migration(migrations.Migration):
                         ],
                     ),
                 ),
-                ("pronunciation", models.CharField(blank=True, max_length=100)),
+                (
+                    "pronunciation",
+                    models.CharField(
+                        blank=True,
+                        max_length=100,
+                    ),
+                ),
                 ("updated", models.DateTimeField(auto_now=True)),
                 ("created", models.DateTimeField(auto_now_add=True)),
                 (
