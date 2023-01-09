@@ -8,8 +8,9 @@ fake = Faker("pl_PL")
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
-    name = factory.Faker.name()
+    username = factory.Faker.user_name()
     email = factory.Faker.email()
+    password = factory.Faker.password()
     profile_picture = factory.Faker.file_path(depth=3, category="photo")
     current_score = factory.Faker.random_int(
         min=0,
