@@ -4,7 +4,7 @@ import django.contrib.auth.models
 import django.contrib.auth.validators
 from django.db import migrations, models
 import django.utils.timezone
-import users.models
+import apps.users.models
 
 
 class Migration(migrations.Migration):
@@ -115,7 +115,7 @@ class Migration(migrations.Migration):
                     models.FileField(
                         blank=True,
                         null=True,
-                        upload_to=users.models.user_directory_path,
+                        upload_to=apps.users.models.user_directory_path,
                     ),
                 ),
                 ("current_score", models.IntegerField(default=0)),
