@@ -5,8 +5,8 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 
-from translations.models import Word, Category, Translation
-from users.models import Ranking, Profile as User
+from apps.translations.models import Word, Category, Translation
+from apps.users.models import Ranking, Profile as User
 
 from . import serializers
 

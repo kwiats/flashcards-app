@@ -4,7 +4,7 @@ import django.contrib.auth.models
 import django.contrib.auth.validators
 from django.db import migrations, models
 import django.utils.timezone
-import users.models
+import apps.users.models
 
 
 class Migration(migrations.Migration):
@@ -44,7 +44,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "password",
+                    models.CharField(max_length=128, verbose_name="password"),
+                ),  # noqa
                 (
                     "last_login",
                     models.DateTimeField(
@@ -55,7 +58,7 @@ class Migration(migrations.Migration):
                     "is_superuser",
                     models.BooleanField(
                         default=False,
-                        help_text="Designates that this user has all permissions without explicitly assigning them.",
+                        help_text="Designates that this user has all permissions without explicitly assigning them.",  # noqa
                         verbose_name="superuser status",
                     ),
                 ),
@@ -63,13 +66,13 @@ class Migration(migrations.Migration):
                     "username",
                     models.CharField(
                         error_messages={
-                            "unique": "A user with that username already exists."
+                            "unique": "A user with that username already exists."  # noqa
                         },
-                        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+                        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",  # noqa
                         max_length=150,
                         unique=True,
                         validators=[
-                            django.contrib.auth.validators.UnicodeUsernameValidator()
+                            django.contrib.auth.validators.UnicodeUsernameValidator()  # noqa
                         ],
                         verbose_name="username",
                     ),
@@ -90,7 +93,7 @@ class Migration(migrations.Migration):
                     "is_staff",
                     models.BooleanField(
                         default=False,
-                        help_text="Designates whether the user can log into this admin site.",
+                        help_text="Designates whether the user can log into this admin site.",  # noqa
                         verbose_name="staff status",
                     ),
                 ),
@@ -98,24 +101,31 @@ class Migration(migrations.Migration):
                     "is_active",
                     models.BooleanField(
                         default=True,
-                        help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+                        help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",  # noqa
                         verbose_name="active",
                     ),
                 ),
                 (
                     "date_joined",
                     models.DateTimeField(
-                        default=django.utils.timezone.now, verbose_name="date joined"
+                        default=django.utils.timezone.now,
+                        verbose_name="date joined",  # noqa
                     ),
                 ),
-                ("name", models.CharField(blank=True, max_length=200, null=True)),
-                ("email", models.EmailField(max_length=254, null=True, unique=True)),
+                (
+                    "name",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),  # noqa
+                (
+                    "email",
+                    models.EmailField(max_length=254, null=True, unique=True),
+                ),  # noqa
                 (
                     "profile_picture",
                     models.FileField(
                         blank=True,
                         null=True,
-                        upload_to=users.models.user_directory_path,
+                        upload_to=apps.users.models.user_directory_path,
                     ),
                 ),
                 ("current_score", models.IntegerField(default=0)),
@@ -125,7 +135,7 @@ class Migration(migrations.Migration):
                     "groups",
                     models.ManyToManyField(
                         blank=True,
-                        help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+                        help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",  # noqa
                         related_name="user_set",
                         related_query_name="user",
                         to="auth.group",

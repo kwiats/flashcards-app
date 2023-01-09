@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator, MinValueValidator
 
 
-from users.models import Profile
+from apps.users.models import Profile
 
 
 class Word(models.Model):

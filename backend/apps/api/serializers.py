@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 
-from translations.models import Word, Category, Translation
-from users.models import Ranking, Profile as User
+from apps.translations.models import Word, Category, Translation
+from apps.users.models import Ranking, Profile as User
 
 
 class WordSerializer(serializers.ModelSerializer):

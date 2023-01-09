@@ -1,8 +1,8 @@
 import factory
 
 from faker import Faker
-from translations.models import Word, Category, Translation
-from users.models import User
+from apps.translations.models import Word, Category, Translation
+from apps.users.models import User
 
 fake = Faker("pl_PL")
 
