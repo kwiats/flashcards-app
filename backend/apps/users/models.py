@@ -45,7 +45,7 @@ class Profile(AbstractUser):
         validators=[
             MinValueValidator(
                 limit_value=0,
-                message="Price cannot be less than 0",
+                message="Score cannot be less than 0",
             )
         ],
     )
@@ -54,7 +54,7 @@ class Profile(AbstractUser):
         validators=[
             MinValueValidator(
                 limit_value=0,
-                message="Price cannot be less than 0",
+                message="Score cannot be less than 0",
             )
         ],
     )
