@@ -68,6 +68,9 @@ class Profile(AbstractUser):
         self.total_score = self.sum_score
         super(Profile, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
 
 class Ranking(models.Model):
     """Model representing a ranking list of users.
@@ -98,7 +101,7 @@ class Ranking(models.Model):
         super(Ranking, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.ranking_name}"
+        return self.ranking_name
 
     def actualize_rank(self):
         user_list = {}
