@@ -9,7 +9,9 @@ class PytestTestRunner:
     @classmethod
     def add_arguments(cls, parser):
         parser.add_argument(
-            "--keepdb", action="store_true", help="Preserves the test DB between runs."
+            "--keepdb",
+            action="store_true",
+            help="Preserves the test DB between runs.",  # noqa
         )
 
     def run_tests(self, test_labels):
