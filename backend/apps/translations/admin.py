@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Word, Translation, Category
+
+from .models import Category, Translation, Word
 
 
 @admin.register(Word)

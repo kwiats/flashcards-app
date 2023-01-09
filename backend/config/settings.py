@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-from dotenv import dotenv_values
 from pathlib import Path
+
+from dotenv import dotenv_values
 
 # Create dotenv instance to read env files
 env = dotenv_values(".env")

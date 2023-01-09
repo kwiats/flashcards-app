@@ -1,7 +1,8 @@
-from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
 
-from .models import Ranking, Profile as User
+from .models import Profile as User
+from .models import Ranking
 
 
 class UserSerializer(serializers.ModelSerializer):
