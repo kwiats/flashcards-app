@@ -2,6 +2,7 @@ from json import dumps
 
 from django.contrib.auth.models import AbstractUser, User
 from django.db import models
+from django.core.validators import MinValueValidator
 
 
 def user_directory_path(instance, filename):
@@ -39,8 +40,24 @@ class Profile(AbstractUser):
         upload_to=user_directory_path, null=True, blank=True
     )
 
-    current_score = models.IntegerField(default=0)
-    spend_score = models.IntegerField(default=0)
+    current_score = models.IntegerField(
+        default=0,
+        validators=[
+            MinValueValidator(
+                limit_value=0,
+                message="Price cannot be less than 0",
+            )
+        ],
+    )
+    spend_score = models.IntegerField(
+        default=0,
+        validators=[
+            MinValueValidator(
+                limit_value=0,
+                message="Price cannot be less than 0",
+            )
+        ],
+    )
     total_score = models.PositiveIntegerField(db_index=True)
 
     @property
