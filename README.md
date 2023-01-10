@@ -1,5 +1,8 @@
 # Flashcards.app
 
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/kwiats/flashcards-app/main.svg)](https://results.pre-commit.ci/latest/github/kwiats/flashcards-app/main)
+
+
 The application is a dictionary quiz that displays an English word and four of its translations in Polish. The user must select the correct translation and receive points for it. The application can offer different levels of difficulty and categories of words, such as animal names, everyday objects, sports, etc. The user can also collect points and achieve higher levels, adding challenge and motivation to learn new words. This application may be useful for people learning English or wanting to improve their skills.
 
 ## Tech Stack

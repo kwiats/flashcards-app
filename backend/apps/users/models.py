@@ -1,8 +1,8 @@
 from json import dumps
 
 from django.contrib.auth.models import AbstractUser, User
-from django.db import models
 from django.core.validators import MinValueValidator
+from django.db import models
 
 
 def user_directory_path(instance, filename):
@@ -45,7 +45,7 @@ class Profile(AbstractUser):
         validators=[
             MinValueValidator(
                 limit_value=0,
-                message="Price cannot be less than 0",
+                message="Score cannot be less than 0",
             )
         ],
     )
@@ -54,7 +54,7 @@ class Profile(AbstractUser):
         validators=[
             MinValueValidator(
                 limit_value=0,
-                message="Price cannot be less than 0",
+                message="Score cannot be less than 0",
             )
         ],
     )
@@ -67,6 +67,9 @@ class Profile(AbstractUser):
     def save(self, *args, **kwargs):
         self.total_score = self.sum_score
         super(Profile, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
 class Ranking(models.Model):
@@ -98,7 +101,7 @@ class Ranking(models.Model):
         super(Ranking, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.ranking_name}"
+        return self.ranking_name
 
     def actualize_rank(self):
         user_list = {}
