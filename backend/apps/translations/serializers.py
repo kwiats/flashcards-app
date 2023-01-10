@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from apps.translations.models import Category, Translation, Word
+from rest_framework import serializers
 
 
 class WordSerializer(serializers.ModelSerializer):

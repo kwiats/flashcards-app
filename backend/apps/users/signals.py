@@ -1,7 +1,6 @@
+from apps.translations.models import Category
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-from apps.translations.models import Category
 
 from .models import Profile
 

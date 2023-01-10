@@ -1,7 +1,6 @@
 import factory
-from faker import Faker
-
 from apps.users.models import Profile
+from faker import Faker
 
 fake = Faker("pl_PL")
 
