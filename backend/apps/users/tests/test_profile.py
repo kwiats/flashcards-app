@@ -22,6 +22,9 @@ class TestProfileModel:
         assert profile.spend_score > 0
         assert profile.current_score >= 0
 
+    def test_profile_picture_path(self, profile):
+        ...
+
     def test_sum_current_and_spend_score(self, profile):
         assert (
             profile.total_score == profile.spend_score + profile.current_score

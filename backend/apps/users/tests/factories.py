@@ -8,7 +8,7 @@ fake = Faker("pl_PL")
 
 class ProfileFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("user_name")
-    # profile_picture = factory.Faker("file_path", depth=3, category="photo")
+    profile_picture = factory.Faker("file_path")
     current_score = factory.Faker(
         "random_int",
         min=0,
@@ -19,7 +19,6 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         min=0,
         max=9999,
     )
-    # total_score = current_score + spend_score
 
     class Meta:
         model = Profile
