@@ -17,3 +17,6 @@ class TestWord:
 
     def test_word(self):
         assert get_field(Word, "word")
+
+    def test_return_string(self, word):
+        assert word
