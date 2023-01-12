@@ -14,5 +14,5 @@ class TestTranslation:
     def translation(self):
         return TranslationFactory.create()
 
-    def test_Translation(self):
+    def test_translation(self):
         assert get_field(Translation, "translation")

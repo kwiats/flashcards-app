@@ -1,17 +1,17 @@
-import factory
 from apps.translations.models import Category, Translation, Word
 from apps.users.tests.factories import ProfileFactory
+from factory import SubFactory
+from factory.django import DjangoModelFactory
 from faker import Faker
 
-fake = Faker("pl_PL")
+faker = Faker("pl_PL")
 
 
-class CategoryFactory(factory.django.DjangoModelFactory):
-    user = factory.SubFactory(ProfileFactory)
-    category = factory.Faker("word")
-    words = factory.SubFactory("tests.factories.WordFactory", parent=None)
-    price = factory.Faker(
-        "random_int",
+class CategoryFactory(DjangoModelFactory):
+    user = SubFactory(ProfileFactory)
+    category = faker.word()
+    words = SubFactory("tests.factories.WordFactory", parent=None)
+    price = faker.random_int(
         min=0,
         max=9999,
     )
@@ -22,31 +22,30 @@ class CategoryFactory(factory.django.DjangoModelFactory):
         model = Category
 
 
-class WordFactory(factory.django.DjangoModelFactory):
-    user = factory.SubFactory(ProfileFactory)
-    word = factory.Faker("word")
-    category_word = factory.SubFactory(CategoryFactory)
-    status = factory.Faker(
-        "random_element",
+class WordFactory(DjangoModelFactory):
+    user = SubFactory(ProfileFactory)
+    word = faker.word()
+    category_word = SubFactory(CategoryFactory)
+    status = faker.random_element(
         elements=(
             "PENDING",
             "APPROVED",
             "REJECTED",
         ),
     )
-    updated = factory.Faker("date_time")
-    created = factory.Faker("date_time")
+    updated = faker.date_time()
+    created = faker.date_time()
 
     class Meta:
         model = Word
 
 
-class TranslationFactory(factory.django.DjangoModelFactory):
-    word = factory.SubFactory(WordFactory)
-    translation = factory.Faker("text", max_nb_chars=255)
-    pronunciation = factory.Faker("word")
-    updated = factory.Faker("date_time")
-    created = factory.Faker("date_time")
+class TranslationFactory(DjangoModelFactory):
+    word = SubFactory(WordFactory)
+    translation = faker.text(max_nb_chars=255)
+    pronunciation = faker.word()
+    updated = faker.date_time()
+    created = faker.date_time()
 
     class Meta:
         model = Translation

@@ -16,3 +16,6 @@ class TestWord:
 
     def test_word(self):
         assert get_field(Word, "word")
+
+    def test_string(self, word):
+        assert str(word) == word.word

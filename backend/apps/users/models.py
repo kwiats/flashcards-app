@@ -33,8 +33,8 @@ class Profile(AbstractUser):
             Return a sum of current score and spend score.
     """
 
-    name = models.CharField(max_length=200, blank=True, null=True)
-    email = models.EmailField(null=True, unique=True)
+    # name = models.CharField(max_length=200, blank=True, null=True)
+    # email = models.EmailField(null=True, unique=True)
 
     profile_picture = models.FileField(
         upload_to=user_directory_path, null=True, blank=True
@@ -69,7 +69,8 @@ class Profile(AbstractUser):
         super(Profile, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        username = self.get_username()
+        return username
 
 
 class Ranking(models.Model):
