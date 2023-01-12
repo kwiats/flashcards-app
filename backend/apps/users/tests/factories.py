@@ -1,20 +1,18 @@
-import factory
 from apps.users.models import Profile
+from factory.django import DjangoModelFactory
 from faker import Faker
 
-fake = Faker("pl_PL")
+faker = Faker("pl_PL")
 
 
-class ProfileFactory(factory.django.DjangoModelFactory):
-    name = factory.Faker("user_name")
-    profile_picture = factory.Faker("file_path")
-    current_score = factory.Faker(
-        "random_int",
+class ProfileFactory(DjangoModelFactory):
+    name = faker.user_name()
+    profile_picture = faker.file_path(depth=2)
+    current_score = faker.random_int(
         min=0,
         max=9999,
     )
-    spend_score = factory.Faker(
-        "random_int",
+    spend_score = faker.random_int(
         min=0,
         max=9999,
     )

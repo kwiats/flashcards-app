@@ -1,5 +1,6 @@
 import pytest
 from apps.translations.models import Word
+from apps.users.models import Profile
 
 from .factories import WordFactory
 

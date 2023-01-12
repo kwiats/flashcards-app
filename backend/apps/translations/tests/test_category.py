@@ -14,5 +14,5 @@ class TestCategory:
     def category(self):
         return CategoryFactory.create()
 
-    def test_Category(self):
+    def test_category(self):
         assert get_field(Category, "category")
