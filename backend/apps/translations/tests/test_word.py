@@ -1,6 +1,5 @@
 import pytest
 from apps.translations.models import Word
-from apps.users.models import Profile
 
 from .factories import WordFactory
 
@@ -18,5 +17,5 @@ class TestWord:
     def test_word(self):
         assert get_field(Word, "word")
 
-    def test_return_string(self, word):
-        assert word
+    def test_string(self, word):
+        assert str(word) == word.word

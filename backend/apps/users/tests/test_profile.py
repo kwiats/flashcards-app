@@ -16,14 +16,11 @@ class TestProfileModel:
         return ProfileFactory.create()
 
     def test_profile(self):
-        assert get_field(Profile, "name")
+        assert get_field(Profile, "current_score")
 
     def test_greater_than_0(self, profile):
         assert profile.spend_score > 0
         assert profile.current_score >= 0
-
-    def test_profile_picture_path(self, profile):
-        ...
 
     def test_sum_current_and_spend_score(self, profile):
         assert (
@@ -43,3 +40,6 @@ class TestProfileModel:
             match="Score cannot be less than 0",
         ):
             get_field(Profile, "current_score").run_validators(-1)
+
+    def test_str(self, profile):
+        assert str(profile) == profile.username
