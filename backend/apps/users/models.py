@@ -16,10 +16,6 @@ class Profile(AbstractUser):
     Inherits from Django's AbstractUser model.
 
     Fields:
-        name (models.CharField):
-            The name of the user.
-        email (models.EmailField):
-            The email address of the user.
         profile_picture (models.FileField):
             The profile picture of the user.
         current_score (models.IntegerField):
@@ -32,9 +28,6 @@ class Profile(AbstractUser):
         sum_score:
             Return a sum of current score and spend score.
     """
-
-    # name = models.CharField(max_length=200, blank=True, null=True)
-    # email = models.EmailField(null=True, unique=True)
 
     profile_picture = models.FileField(
         upload_to=user_directory_path, null=True, blank=True
