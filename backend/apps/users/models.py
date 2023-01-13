@@ -62,8 +62,7 @@ class Profile(AbstractUser):
         super(Profile, self).save(*args, **kwargs)
 
     def __str__(self):
-        username = self.get_username()
-        return username
+        return self.get_username()
 
 
 class Ranking(models.Model):
