@@ -1,7 +1,6 @@
 import pytest
 from apps.translations.models import Word
-
-from .factories import WordFactory
+from apps.translations.tests.factories import WordFactory
 
 
 def get_field(model, field):

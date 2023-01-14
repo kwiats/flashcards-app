@@ -1,13 +1,9 @@
 from json import dumps
 
+from apps.users.utills import user_directory_path
 from django.contrib.auth.models import AbstractUser, User
 from django.core.validators import MinValueValidator
 from django.db import models
-
-
-def user_directory_path(instance, filename):
-    """file will be uploaded to MEDIA_ROOT/user_<id>/<filename>"""
-    return f"static/images/user_{instance.pk}/{filename}"
 
 
 class Profile(AbstractUser):

@@ -1,8 +1,7 @@
 import pytest
 from apps.users.models import Profile
+from apps.users.tests.factories import ProfileFactory
 from django.core.exceptions import ValidationError
-
-from .factories import ProfileFactory
 
 
 def get_field(model, field):
@@ -17,6 +16,9 @@ class TestProfileModel:
 
     def test_profile(self):
         assert get_field(Profile, "current_score")
+        assert get_field(Profile, "spend_score")
+        assert get_field(Profile, "total_score")
+        assert get_field(Profile, "profile_picture")
 
     def test_greater_than_0(self, profile):
         assert profile.spend_score > 0
