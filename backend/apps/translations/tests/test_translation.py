@@ -1,5 +1,6 @@
 import pytest
 from apps.translations.models import Translation
+from django.core.exceptions import ValidationError
 
 from .factories import TranslationFactory
 
@@ -23,3 +24,13 @@ class TestTranslation:
 
     def test_string(self, translation):
         assert str(translation) == translation.translation
+
+    def test_translation_user_null_blank(self):
+        translation = TranslationFactory.create(user=None)
+        assert translation.user is None
+
+    def test_translation_alphabetic(self):
+        with pytest.raises(
+            ValidationError, match="Translation should be alphabetic"
+        ):  # noqa
+            get_field(Translation, "translation").run_validators("1dwatrzy3")

@@ -1,5 +1,6 @@
 import pytest
 from apps.translations.models import Category
+from django.core.exceptions import ValidationError
 
 from .factories import CategoryFactory
 
@@ -20,7 +21,17 @@ class TestCategory:
 
     @pytest.fixture()
     def category(self):
-        return CategoryFactory.create()
+        return CategoryFactory.create(category="Animals")
 
     def test_string(self, category):
         assert str(category) == category.category
+
+    def test_price_less_then_0(self, category):
+        with pytest.raises(
+            ValidationError, match="Price cannot be less than 0"
+        ):  # noqa
+            get_field(Category, "price").run_validators(-1)
+
+    def test_category_name_validator(self):
+        with pytest.raises(ValidationError, match="Word should be alphanumeric"):
+            get_field(Category, "category").run_validators("{] [qwe")

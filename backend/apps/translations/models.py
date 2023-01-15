@@ -46,14 +46,6 @@ class Word(models.Model):
         ],
     )
 
-    # category_word = models.ForeignKey(
-    #     "Category",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     related_name="+",
-    #     blank=True,
-    # )
-
     status = models.CharField(
         max_length=10,
         choices=STATUS_CHOICES,
