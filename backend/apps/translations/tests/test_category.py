@@ -10,12 +10,17 @@ def get_field(model, field):
 
 @pytest.mark.django_db()
 class TestCategory:
+    def test_category(self):
+        assert get_field(Category, "users")
+        assert get_field(Category, "category")
+        assert get_field(Category, "words")
+        assert get_field(Category, "price")
+        assert get_field(Category, "isDefault")
+        assert get_field(Category, "isAllow")
+
     @pytest.fixture()
     def category(self):
         return CategoryFactory.create()
-
-    def test_category(self):
-        assert get_field(Category, "category")
 
     def test_string(self, category):
         assert str(category) == category.category
