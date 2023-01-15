@@ -11,8 +11,6 @@ class Word(models.Model):
             Foreign key to the user who created the word.
         word (models.TextField):
             The word itself.
-        category_word (models.ForeignKey):
-            Foreign key to the category the word belongs to.
         status (models.CharField):
             The status of the word (pending, approved, rejected).
         updated (models.DateTimeField):
@@ -48,14 +46,6 @@ class Word(models.Model):
         ],
     )
 
-    # category_word = models.ForeignKey(
-    #     "Category",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     related_name="+",
-    #     blank=True,
-    # )
-
     status = models.CharField(
         max_length=10,
         choices=STATUS_CHOICES,
@@ -76,7 +66,9 @@ class Word(models.Model):
 class Translation(models.Model):
     """Model representing a translation of a word.
 
-    Fields::
+    Fields:
+        user (models.ForeignKey):
+            Foreign key to the user who created the translation.
         word (models.ForeignKey):
             Foreign key to the word being translated.
         translation (models.CharField):
@@ -94,7 +86,7 @@ class Translation(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name="",
+        related_name="owner",
     )
 
     word = models.ForeignKey(
