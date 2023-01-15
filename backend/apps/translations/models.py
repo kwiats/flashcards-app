@@ -48,13 +48,13 @@ class Word(models.Model):
         ],
     )
 
-    category_word = models.ForeignKey(
-        "Category",
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="+",
-        blank=True,
-    )
+    # category_word = models.ForeignKey(
+    #     "Category",
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     related_name="+",
+    #     blank=True,
+    # )
 
     status = models.CharField(
         max_length=10,
@@ -88,6 +88,14 @@ class Translation(models.Model):
         created (models.DateTimeField):
             The time the translation was created.
     """
+
+    user = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="",
+    )
 
     word = models.ForeignKey(
         "Word", on_delete=models.CASCADE, related_name="translations"

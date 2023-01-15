@@ -16,3 +16,6 @@ class TestCategory:
 
     def test_category(self):
         assert get_field(Category, "category")
+
+    def test_string(self, category):
+        assert str(category) == category.category

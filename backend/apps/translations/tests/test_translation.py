@@ -16,3 +16,6 @@ class TestTranslation:
 
     def test_translation(self):
         assert get_field(Translation, "translation")
+
+    def test_string(self, translation):
+        assert str(translation) == translation.translation

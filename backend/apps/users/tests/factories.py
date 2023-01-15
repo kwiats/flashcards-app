@@ -5,26 +5,34 @@ from factory.django import DjangoModelFactory
 from faker import Faker
 from faker.providers import internet, misc
 
-faker = Faker("pl_PL")
+faker = Faker()
 faker.add_provider(internet)
 faker.add_provider(misc)
 
 
 class ProfileFactory(DjangoModelFactory):
     # user
-    username = faker.user_name()
+    username = LazyFunction(lambda: faker.user_name())
     password = LazyFunction(lambda: make_password(faker.password()))
-    email = faker.email()
+    email = LazyFunction(lambda: faker.email())
+    first_name = LazyFunction(lambda: faker.first_name())
+    last_name = LazyFunction(lambda: faker.last_name())
+    is_staff = True
+    is_superuser = True
 
     # profile
-    profile_picture = faker.file_path(depth=2)
-    current_score = faker.random_int(
-        min=0,
-        max=9999,
+    profile_picture = LazyFunction(lambda: faker.file_path(depth=2))
+    current_score = LazyFunction(
+        lambda: faker.random_int(
+            min=0,
+            max=9999,
+        )
     )
-    spend_score = faker.random_int(
-        min=0,
-        max=9999,
+    spend_score = LazyFunction(
+        lambda: faker.random_int(
+            min=0,
+            max=9999,
+        )
     )
 
     class Meta:

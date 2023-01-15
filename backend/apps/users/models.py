@@ -1,13 +1,9 @@
 from json import dumps
 
+from apps.users.utills import user_directory_path
 from django.contrib.auth.models import AbstractUser, User
 from django.core.validators import MinValueValidator
 from django.db import models
-
-
-def user_directory_path(instance, filename):
-    """file will be uploaded to MEDIA_ROOT/user_<id>/<filename>"""
-    return f"static/images/user_{instance.pk}/{filename}"
 
 
 class Profile(AbstractUser):
@@ -16,10 +12,6 @@ class Profile(AbstractUser):
     Inherits from Django's AbstractUser model.
 
     Fields:
-        name (models.CharField):
-            The name of the user.
-        email (models.EmailField):
-            The email address of the user.
         profile_picture (models.FileField):
             The profile picture of the user.
         current_score (models.IntegerField):
@@ -32,9 +24,6 @@ class Profile(AbstractUser):
         sum_score:
             Return a sum of current score and spend score.
     """
-
-    # name = models.CharField(max_length=200, blank=True, null=True)
-    # email = models.EmailField(null=True, unique=True)
 
     profile_picture = models.FileField(
         upload_to=user_directory_path, null=True, blank=True
@@ -69,8 +58,7 @@ class Profile(AbstractUser):
         super(Profile, self).save(*args, **kwargs)
 
     def __str__(self):
-        username = self.get_username()
-        return username
+        return self.get_username()
 
 
 class Ranking(models.Model):
