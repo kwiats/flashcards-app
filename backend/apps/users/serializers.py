@@ -23,6 +23,27 @@ class ScoreUserSerializer(serializers.ModelSerializer):
         )
 
 
+class ScoreAdderSerializer(serializers.ModelSerializer):
+    current_score = serializers.IntegerField(required=False)
+    spend_score = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = User
+        fields = (
+            "current_score",
+            "spend_score",
+        )
+
+    def update(self, instance, data):
+        self.total_score = instance.total_score
+        if "current_score" in data:
+            instance.current_score += data["current_score"]
+        if "spend_score" in data:
+            instance.spend_score += data["spend_score"]
+        instance.save()
+        return instance
+
+
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -60,6 +81,17 @@ class RankingSerializer(serializers.ModelSerializer):
 
     def get_user_list(self, data):
         return data.actualize_rank()
+
+
+class NewRankingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "total_score",
+            "spend_score",
+            "current_score",
+        )
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):

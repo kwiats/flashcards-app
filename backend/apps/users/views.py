@@ -88,6 +88,14 @@ class UserDetailView(APIView):
         return Response("User is deleted.", status=status.HTTP_200_OK)
 
 
+class NewRankingView(APIView):
+    def get(self, request):
+        users = User.objects.all().order_by("-spend_score")
+        serializer = serializers.NewRankingSerializer(users, many=True)
+        result = lambda x, y: enumerate(serializer.data, start=1)
+        return Response(list(result(1, 2)))
+
+
 class RankingListView(APIView):
     def get(self, request, format=None):
         ranking = Ranking.objects.latest("ranking_date")
@@ -126,3 +134,14 @@ class ScoreUserView(APIView):
         user = get_object_or_404(User, pk=pk)
         serializer = serializers.ScoreUserSerializer(user)
         return Response(serializer.data)
+
+
+class ScoreAdderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, pk):
+        user = User.objects.get(pk=pk)
+        serializer = serializers.ScoreAdderSerializer(user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
