@@ -6,7 +6,6 @@ from rest_framework.views import APIView
 
 from . import serializers
 from .models import Profile as User
-from .models import Ranking
 
 
 class UserListView(APIView):
@@ -89,10 +88,11 @@ class UserDetailView(APIView):
 
 
 class RankingListView(APIView):
-    def get(self, request, format=None):
-        ranking = Ranking.objects.latest("ranking_date")
-        serializer = serializers.RankingSerializer(ranking)
-        return Response(serializer.data)
+    def get(self, request):
+        users = User.objects.all().order_by("-spend_score")
+        serializer = serializers.RankingSerializer(users, many=True)
+        result = lambda x, y: enumerate(serializer.data, start=1)  # noqa
+        return Response(list(result(1, 2)))
 
 
 class ChangePasswordView(APIView):
@@ -126,3 +126,14 @@ class ScoreUserView(APIView):
         user = get_object_or_404(User, pk=pk)
         serializer = serializers.ScoreUserSerializer(user)
         return Response(serializer.data)
+
+
+class ScoreAdderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, pk):
+        user = User.objects.get(pk=pk)
+        serializer = serializers.ScoreAdderSerializer(user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

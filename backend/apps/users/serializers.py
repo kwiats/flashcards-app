@@ -2,7 +2,6 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 from .models import Profile as User
-from .models import Ranking
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -21,6 +20,27 @@ class ScoreUserSerializer(serializers.ModelSerializer):
             "current_score",
             "total_score",
         )
+
+
+class ScoreAdderSerializer(serializers.ModelSerializer):
+    current_score = serializers.IntegerField(required=False)
+    spend_score = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = User
+        fields = (
+            "current_score",
+            "spend_score",
+        )
+
+    def update(self, instance, data):
+        self.total_score = instance.total_score
+        if "current_score" in data:
+            instance.current_score += data["current_score"]
+        if "spend_score" in data:
+            instance.spend_score += data["spend_score"]
+        instance.save()
+        return instance
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -50,16 +70,14 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 
 class RankingSerializer(serializers.ModelSerializer):
-    user_list = serializers.SerializerMethodField(read_only=True)
-
     class Meta:
-        model = Ranking
-        fields = [
-            "user_list",
-        ]
-
-    def get_user_list(self, data):
-        return data.actualize_rank()
+        model = User
+        fields = (
+            "username",
+            "total_score",
+            "spend_score",
+            "current_score",
+        )
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):

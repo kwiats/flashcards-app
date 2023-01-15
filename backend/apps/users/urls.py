@@ -34,4 +34,9 @@ urlpatterns = [
         views.ScoreUserView.as_view(),
         name="total-user-score",
     ),
+    path(
+        "user/<int:pk>/add_score/",
+        views.ScoreAdderView.as_view(),
+        name="score-user-adder",
+    ),
 ]
