@@ -2,7 +2,6 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 from .models import Profile as User
-from .models import Ranking
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -71,19 +70,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 
 class RankingSerializer(serializers.ModelSerializer):
-    user_list = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = Ranking
-        fields = [
-            "user_list",
-        ]
-
-    def get_user_list(self, data):
-        return data.actualize_rank()
-
-
-class NewRankingSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (

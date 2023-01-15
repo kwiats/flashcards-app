@@ -6,7 +6,6 @@ from rest_framework.views import APIView
 
 from . import serializers
 from .models import Profile as User
-from .models import Ranking
 
 
 class UserListView(APIView):
@@ -88,19 +87,12 @@ class UserDetailView(APIView):
         return Response("User is deleted.", status=status.HTTP_200_OK)
 
 
-class NewRankingView(APIView):
+class RankingListView(APIView):
     def get(self, request):
         users = User.objects.all().order_by("-spend_score")
-        serializer = serializers.NewRankingSerializer(users, many=True)
-        result = lambda x, y: enumerate(serializer.data, start=1)
+        serializer = serializers.RankingSerializer(users, many=True)
+        result = lambda x, y: enumerate(serializer.data, start=1)  # noqa
         return Response(list(result(1, 2)))
-
-
-class RankingListView(APIView):
-    def get(self, request, format=None):
-        ranking = Ranking.objects.latest("ranking_date")
-        serializer = serializers.RankingSerializer(ranking)
-        return Response(serializer.data)
 
 
 class ChangePasswordView(APIView):

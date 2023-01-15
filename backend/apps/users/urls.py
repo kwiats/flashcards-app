@@ -30,11 +30,6 @@ urlpatterns = [
         name="score-ranking",
     ),
     path(
-        "newranking/",
-        views.NewRankingView.as_view(),
-        name="new-ranking",
-    ),
-    path(
         "user/<int:pk>/score/",
         views.ScoreUserView.as_view(),
         name="total-user-score",

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext as _
 
-from .models import Profile, Ranking
+from .models import Profile
 
 
 @admin.register(Profile)
@@ -63,12 +63,3 @@ class UserAdmin(UserAdmin):
             },
         ),
     )
-
-
-@admin.register(Ranking)
-class RankingAdmin(admin.ModelAdmin):
-    list_display = (
-        "ranking_name",
-        "ranking_date",
-    )
-    ordering = ("ranking_date",)
