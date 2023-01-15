@@ -91,8 +91,10 @@ class RankingListView(APIView):
     def get(self, request):
         users = User.objects.all().order_by("-spend_score")
         serializer = serializers.RankingSerializer(users, many=True)
-        result = lambda x, y: enumerate(serializer.data, start=1)  # noqa
-        return Response(list(result(1, 2)))
+        serializer_data = serializer.data
+        for position, user in enumerate(serializer_data, start=1):
+            user["rank"] = position
+        return Response(serializer_data)
 
 
 class ChangePasswordView(APIView):
