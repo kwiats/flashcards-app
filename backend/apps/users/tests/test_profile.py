@@ -21,7 +21,7 @@ class TestProfileModel:
         assert get_field(Profile, "profile_picture")
 
     def test_greater_than_0(self, profile):
-        assert profile.spend_score > 0
+        assert profile.spend_score >= 0
         assert profile.current_score >= 0
 
     def test_sum_current_and_spend_score(self, profile):

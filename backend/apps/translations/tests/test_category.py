@@ -33,5 +33,7 @@ class TestCategory:
             get_field(Category, "price").run_validators(-1)
 
     def test_category_name_validator(self):
-        with pytest.raises(ValidationError, match="Word should be alphanumeric"):
+        with pytest.raises(
+            ValidationError, match="Word should be alphanumeric"
+        ):  # noqa
             get_field(Category, "category").run_validators("{] [qwe")
