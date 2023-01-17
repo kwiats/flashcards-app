@@ -1,4 +1,4 @@
-from apps.users.manager import ProfileManager
+from apps.users.managers import ProfileManager
 from apps.users.utills import user_directory_path
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
