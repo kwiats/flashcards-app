@@ -1,3 +1,4 @@
+from apps.translations.managers import WordManager
 from apps.users.models import Profile
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
@@ -54,6 +55,8 @@ class Word(models.Model):
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    objects = WordManager()
 
     class Meta:
         ordering = ["-updated", "word"]
