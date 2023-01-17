@@ -1,3 +1,4 @@
+from apps.users.manager import ProfileManager
 from apps.users.utills import user_directory_path
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
@@ -46,6 +47,7 @@ class Profile(AbstractUser):
         ],
     )
     total_score = models.PositiveIntegerField(db_index=True)
+    objects = ProfileManager()
 
     @property
     def sum_score(self) -> int:
