@@ -17,3 +17,14 @@ class WordManager(models.Manager):
 
     def filter_by_update(self):
         return self.order_by("updated")
+
+
+class TranslationManager(models.Manager):
+    def filter_by_update(self):
+        return self.order_by("updated")
+
+    def filter_by_created(self):
+        return self.order_by("created")
+
+    def filter_by_user(self, user):
+        return self.filter(user=user)
