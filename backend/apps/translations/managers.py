@@ -28,3 +28,26 @@ class TranslationManager(models.Manager):
 
     def filter_by_user(self, user):
         return self.filter(user=user)
+
+
+class CategoryManager(models.Manager):
+    def filter_by_default(self):
+        return self.filter(isDefault=True)
+
+    def filter_by_allowed(self):
+        return self.filter(isAllow=True)
+
+    def filter_by_low_price(self, price):
+        return self.filter(price >= price)
+
+    def filter_by_high_price(self, price):
+        return self.filter(price >= price)
+
+    def filter_by_update(self):
+        return self.all().order_by("updated")
+
+    def filter_by_created(self):
+        return self.order_by("created")
+
+    def filter_by_user(self, user):
+        return self.filter(user=user)
