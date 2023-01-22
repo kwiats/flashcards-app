@@ -6,28 +6,34 @@ from django.db import models
 
 
 class WordManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset()
+
     def filter_by_status(self, status):
-        return self.filter(status=status)
+        return self.get_queryset().filter(status=status)
 
     def filter_by_user(self, user):
-        return self.filter(user=user)
+        return self.get_queryset().filter(user=user)
 
     def filter_by_word(self, word):
-        return self.filter(word=word)
+        return self.get_queryset().filter(word=word)
 
     def filter_by_update(self):
-        return self.order_by("updated")
+        return self.get_queryset().order_by("updated")
 
 
 class TranslationManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset()
+
     def filter_by_update(self):
-        return self.order_by("updated")
+        return self.get_queryset().order_by("updated")
 
     def filter_by_created(self):
-        return self.order_by("created")
+        return self.get_queryset().order_by("created")
 
     def filter_by_user(self, user):
-        return self.filter(user=user)
+        return self.get_queryset().filter(user=user)
 
 
 class CategoryManager(models.Manager):
