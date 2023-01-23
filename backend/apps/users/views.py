@@ -89,7 +89,7 @@ class UserDetailView(APIView):
 
 class RankingListView(APIView):
     def get(self, request):
-        users = User.objects.all().order_by("-spend_score")
+        users = User.objects.filter_by_total_score()
         serializer = serializers.RankingSerializer(users, many=True)
         serializer_data = serializer.data
         for position, user in enumerate(serializer_data, start=1):

@@ -175,3 +175,10 @@ class CategoryDetailView(APIView):
             f"Category(id = {pk}) is deleted.",
             status=status.HTTP_204_NO_CONTENT,
         )
+
+
+class TestView(APIView):
+    def get(self, request):
+        category = Category.objects.filter_by_low_price(0)
+        print(category)
+        return Response("elo")

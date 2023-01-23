@@ -1,3 +1,4 @@
+from apps.translations import managers
 from apps.users.models import Profile
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
@@ -55,6 +56,8 @@ class Word(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
+    objects = managers.WordManager()
+
     class Meta:
         ordering = ["-updated", "word"]
 
@@ -108,6 +111,8 @@ class Translation(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
+    objects = managers.TranslationManager()
+
     def __str__(self) -> str:
         """Return string representation"""
         return self.translation
@@ -155,6 +160,8 @@ class Category(models.Model):
     )
     isDefault = models.BooleanField(default=False)
     isAllow = models.BooleanField(default=True)
+
+    objects = managers.CategoryManager()
 
     def __str__(self) -> str:
         """Return string representation"""

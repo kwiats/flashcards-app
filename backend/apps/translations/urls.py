@@ -38,4 +38,5 @@ urlpatterns = [
         views.TranslationDetailView.as_view(),
         name="specific-translation",
     ),
+    path("test", views.TestView.as_view()),
 ]
