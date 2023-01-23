@@ -17,4 +17,7 @@ def create_user_default_list_of_words(sender, instance, created, **kwargs):
                 isAllow=False,
                 isDefault=True,
             )
+            default_category.words.set([])
             default_category.users.add(instance)
+    default_category.save()
+    print(default_category)
