@@ -12,7 +12,6 @@ class UserListView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-
         users = get_list_or_404(User)
         serializer = serializers.UserSerializer(
             users,

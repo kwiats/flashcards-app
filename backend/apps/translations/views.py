@@ -12,7 +12,6 @@ class WordListView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-
         words = Word.objects.all()
         serializer = serializers.WordSerializer(words, many=True)
         return Response(serializer.data)
@@ -34,7 +33,6 @@ class WordTranslationsView(APIView):
 
 
 class WordDetailView(APIView):
-
     permission_classes = (IsAuthenticated,)
 
     def get_object(self, pk):
@@ -50,7 +48,6 @@ class WordDetailView(APIView):
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
-
         word = self.get_object(pk)
 
         if word:
